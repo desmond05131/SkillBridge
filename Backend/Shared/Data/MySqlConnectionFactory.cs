@@ -12,7 +12,7 @@ public sealed class MySqlConnectionFactory
     {
         var connectionString = configuration.GetConnectionString("SkillBridge");
         if (string.IsNullOrWhiteSpace(connectionString))
-            throw new InvalidOperationException("Configure ConnectionStrings:SkillBridge with .NET user secrets or the ConnectionStrings__SkillBridge environment variable. See database/README.md.");
+            throw new InvalidOperationException("Configure ConnectionStrings:SkillBridge with .NET user secrets or the ConnectionStrings__SkillBridge environment variable. See README.md.");
 
         var settings = new MySqlConnectionStringBuilder(connectionString);
         if (string.IsNullOrWhiteSpace(settings.Database) || string.IsNullOrWhiteSpace(settings.Server) || string.IsNullOrWhiteSpace(settings.UserID))
