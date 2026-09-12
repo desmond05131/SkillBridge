@@ -1,0 +1,47 @@
+@page
+@model SkillBridge.Web.Pages.Lessons.ViewModel
+@{
+    ViewData["Title"] = Model.Detail.Lesson.Title;
+}
+<a asp-page="/ChangZhe/Courses/Detail" asp-route-id="@Model.Detail.Lesson.CourseId" class="breadcrumbs">← @Model.Detail.Lesson.CourseTitle</a>
+<div class="page-head">
+    <div>
+        <p class="eyebrow">LESSON @Model.Detail.Lesson.SequenceNumber · @Model.Detail.Lesson.DurationMinutes MINUTES</p>
+        <h1>@Model.Detail.Lesson.Title</h1>
+        <p>@Model.Detail.Summary</p>
+    </div>
+</div>
+@if (!Model.Detail.Lesson.IsPublished)
+{
+    <div class="alert warning" role="status">Administrator preview. This lesson belongs to an unpublished course.</div>
+}
+<article class="card">
+    <div class="card-body">
+        <h2>Lesson content</h2>
+        @foreach (var paragraph in Model.Detail.Body.Split('\n', StringSplitOptions.RemoveEmptyEntries))
+        {
+            <p class="body-copy">@paragraph</p>
+        }
+    </div>
+</article>
+<section class="card section-space" aria-labelledby="resources-heading">
+    <div class="card-body">
+        <h2 id="resources-heading">Lesson resources</h2>
+        @if (Model.Detail.Resources.Count == 0)
+        {
+            <p class="muted">No resources have been added to this lesson.</p>
+        }
+        @foreach (var resource in Model.Detail.Resources)
+        {
+            <div class="section-space">
+                <h3>@resource.Title</h3>
+                <p class="muted">@resource.ResourceType · @((resource.SizeBytes / 1024d).ToString("N0")) KiB</p>
+                <p>@resource.Description</p>
+            </div>
+        }
+        @if (Model.Detail.Resources.Count > 0)
+        {
+            <p class="muted">Downloads and media playback are not available yet.</p>
+        }
+    </div>
+</section>

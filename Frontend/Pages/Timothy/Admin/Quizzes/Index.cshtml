@@ -1,0 +1,53 @@
+@page
+@model SkillBridge.Web.Pages.Admin.Quizzes.IndexModel
+@{
+    ViewData["Title"] = "Quizzes";
+}
+<a asp-page="/JianYi/Admin/Index" class="breadcrumbs">← Administration</a>
+<div class="page-head">
+    <div>
+        <p class="eyebrow">COURSE ASSESSMENTS</p>
+        <h1>Quizzes</h1>
+        <p>View course assessments and their publication status.</p>
+    </div>
+</div>
+@if (Model.Quizzes.Count == 0)
+{
+    <section class="card empty">
+        <h2>No quizzes yet</h2>
+        <p>Quizzes will appear here when they are added.</p>
+    </section>
+}
+else
+{
+    <div class="card table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">Quiz</th>
+                    <th scope="col">Course</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Questions</th>
+                    <th scope="col">Preview</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var quiz in Model.Quizzes)
+                {
+                    <tr>
+                        <td><span class="table-label">Quiz</span>@quiz.Title</td>
+                        <td><span class="table-label">Course</span>@quiz.CourseTitle</td>
+                        <td>
+                            <span class="table-label">Status</span>
+                            <span class="badge @(quiz.IsPublished ? "success" : "warning")">@(quiz.IsPublished ? "Published" : "Draft")</span>
+                        </td>
+                        <td><span class="table-label">Questions</span>@quiz.QuestionCount</td>
+                        <td class="actions">
+                            <a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@quiz.Id" aria-label="Preview @quiz.Title">Preview</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

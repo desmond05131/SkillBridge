@@ -1,0 +1,44 @@
+@page
+@model SkillBridge.Web.Pages.Quizzes.StartModel
+@{
+    ViewData["Title"] = Model.Quiz.Title;
+}
+<a asp-page="/ChangZhe/Courses/Detail" asp-route-id="@Model.Quiz.CourseId" class="breadcrumbs">← @Model.Quiz.CourseTitle</a>
+<div class="page-head">
+    <div>
+        <p class="eyebrow">COURSE QUIZ</p>
+        <h1>@Model.Quiz.Title</h1>
+        <p>Review the assessment details for @Model.Quiz.CourseTitle.</p>
+    </div>
+</div>
+@if (User.IsInRole("Admin"))
+{
+    <div class="alert warning" role="status">
+        Administrator preview. Members can view this quiz when both the quiz and course are published and they are enrolled.
+    </div>
+}
+<div class="grid three">
+    <section class="card stat">
+        <span class="label">Questions</span>
+        <strong class="value">@Model.Quiz.QuestionCount</strong>
+    </section>
+    <section class="card stat">
+        <span class="label">Pass mark</span>
+        <strong class="value">@(Model.Quiz.PassPercentage.ToString("0.##"))%</strong>
+    </section>
+    <section class="card stat">
+        <span class="label">Quiz status</span>
+        <strong class="value">@(Model.Quiz.IsPublished ? "Published" : "Draft")</strong>
+    </section>
+</div>
+<section class="card section-space">
+    <div class="card-body">
+        <h2>Before you begin</h2>
+        <p class="body-copy">@Model.Quiz.Instructions</p>
+        <p class="muted">Quiz attempts are not open yet.</p>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-page="/Timothy/Admin/Quizzes/Index" class="btn secondary">Back to quizzes</a>
+        }
+    </div>
+</section>

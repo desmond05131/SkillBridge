@@ -4,8 +4,14 @@ using Microsoft.AspNetCore.RateLimiting;
 using SkillBridge.Web.Features.Administration;
 using SkillBridge.Web.Features.Community;
 using SkillBridge.Web.Features.Courses;
+using SkillBridge.Web.Features.Lessons;
+using SkillBridge.Web.Features.Quizzes;
 using SkillBridge.Web.Infrastructure.Authentication;
+using SkillBridge.Web.Infrastructure.Administration;
+using SkillBridge.Web.Infrastructure.Community;
+using SkillBridge.Web.Infrastructure.Courses;
 using SkillBridge.Web.Infrastructure.Content;
+using SkillBridge.Web.Infrastructure.Quizzes;
 
 var isAdminBootstrap = args.Contains("--create-admin", StringComparer.Ordinal);
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -15,10 +21,11 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 builder.Services.AddAccountFoundation(builder.Configuration);
-builder.Services.AddScoped<MySqlLearningReader>();
-builder.Services.AddScoped<ICourseReader>(services => services.GetRequiredService<MySqlLearningReader>());
-builder.Services.AddScoped<IForumReader>(services => services.GetRequiredService<MySqlLearningReader>());
-builder.Services.AddScoped<IDashboardReader>(services => services.GetRequiredService<MySqlLearningReader>());
+builder.Services.AddScoped<ICourseReader, MySqlCourseReader>();
+builder.Services.AddScoped<IForumReader, MySqlForumReader>();
+builder.Services.AddScoped<IDashboardReader, MySqlDashboardReader>();
+builder.Services.AddScoped<ILessonReader, MySqlLessonReader>();
+builder.Services.AddScoped<IQuizReader, MySqlQuizReader>();
 builder.Services.AddRazorPages(options =>
 {
     options.RootDirectory = "/Frontend/Pages";

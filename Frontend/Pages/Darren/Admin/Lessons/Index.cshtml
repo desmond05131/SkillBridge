@@ -1,0 +1,50 @@
+@page
+@model SkillBridge.Web.Pages.Admin.Lessons.IndexModel
+@{
+    ViewData["Title"] = "Lessons";
+}
+<a asp-page="/JianYi/Admin/Index" class="breadcrumbs">← Administration</a>
+<div class="page-head">
+    <div>
+        <p class="eyebrow">COURSE CONTENT</p>
+        <h1>Lessons</h1>
+        <p>Review lessons and their order within each course.</p>
+    </div>
+</div>
+@if (Model.Lessons.Count == 0)
+{
+    <section class="card empty">
+        <h2>No lessons yet</h2>
+        <p>Lessons will appear here once course content has been added.</p>
+    </section>
+}
+@if (Model.Lessons.Count > 0)
+{
+    <div class="card table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th scope="col">Course</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Lesson</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Course status</th>
+                    <th scope="col">Preview</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lesson in Model.Lessons)
+                {
+                    <tr>
+                        <td><span class="table-label">Course</span>@lesson.CourseTitle</td>
+                        <td><span class="table-label">Order</span>@lesson.SequenceNumber</td>
+                        <td><span class="table-label">Lesson</span>@lesson.Title</td>
+                        <td><span class="table-label">Duration</span>@lesson.DurationMinutes minutes</td>
+                        <td><span class="table-label">Course status</span><span class="badge @(lesson.IsPublished ? "success" : "warning")">@(lesson.IsPublished ? "Published" : "Draft")</span></td>
+                        <td><a asp-page="/Darren/Lessons/View" asp-route-id="@lesson.Id" aria-label="Preview @lesson.Title">View lesson</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

@@ -44,11 +44,21 @@ database/                Schema and starting data
 appsettings*.json        General settings; keep passwords in user secrets
 ```
 
-Keep each page and its handler under matching owner/subfolder names. Add Darren/Timothy folders with their first files. Put each owner's Admin pages in `Frontend/Pages/<owner>/Admin/`. The browser URLs stay simple, such as `/Courses` and `/Admin/Courses`.
+All five owners have page markup in `Frontend/Pages/<owner>/`, matching handlers in `Backend/Pages/<owner>/`, and module code in `Backend/<owner>/`. Keep new files in your own folders. Put Admin pages in `Frontend/Pages/<owner>/Admin/`. Browser URLs stay simple, such as `/Courses` and `/Admin/Lessons`.
 
 ## Start here
 
-Accounts, styling, the Admin dashboard and basic course/forum reads work. The other features above still need development. The three starting courses are drafts, so the public catalogue is initially empty.
+Accounts, styling, the Admin dashboard and course/forum reads work. Darren has a lesson/resource viewer and Admin lesson list; Timothy has a quiz overview and Admin quiz list. These are working read-only starting points: editing, enrolment, media delivery, progress, quiz attempts/grading and forum posting still need development. The three starting courses are drafts, so the public catalogue is initially empty.
+
+| Owner | Start editing these pages | Open in the website |
+|---|---|---|
+| Jian Yi | `JianYi/Account/` and `JianYi/Admin/` | `/Account/Login`, `/Admin` |
+| Chang Zhe | `ChangZhe/Courses/` | `/Courses` |
+| Darren | `Darren/Lessons/View.cshtml`, `Darren/Admin/Lessons/Index.cshtml` | `/Admin/Lessons` → Preview |
+| Timothy | `Timothy/Quizzes/Start.cshtml`, `Timothy/Admin/Quizzes/Index.cshtml` | `/Admin/Quizzes` → Preview |
+| Hamzah | `Hamzah/Forum/Index.cshtml` | `/Forum` |
+
+Admin lists show real records. They are empty until lessons and quizzes are added; no example completions or scores are generated.
 
 Work on your own branch. Build and test your feature, including invalid input and denied access, then open a pull request. Coordinate shared layout, database and `Program.cs` changes with Jian Yi. Keep screenshots and SQL explanations for your report section.
 
