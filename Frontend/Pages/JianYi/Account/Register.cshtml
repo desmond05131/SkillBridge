@@ -1,0 +1,42 @@
+@page
+@model SkillBridge.Web.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Create account";
+}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a asp-page="/JianYi/Index">Home</a><partial name="_Icon" model='@("chevron")' /><span aria-current="page">Create account</span></nav>
+<div class="auth-grid">
+    <partial name="_AuthStory" />
+    <section class="card auth-card">
+        <h1>Start building practical skills</h1>
+        <p class="muted small">Create your free SkillBridge learner account.</p>
+        <form method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="All" class="validation-summary" role="alert" tabindex="-1"></div>
+            <div class="field">
+    <label asp-for="Input.DisplayName">Full name<span class="required" aria-hidden="true">*</span></label>
+    <input asp-for="Input.DisplayName" class="control" type="text" autocomplete="name" required minlength="2" maxlength="80" aria-describedby="Input_DisplayName_error Input_DisplayName_hint" />
+    <div class="hint" id="Input_DisplayName_hint">This name appears on your forum posts.</div>
+    <span asp-validation-for="Input.DisplayName" class="field-error" id="Input_DisplayName_error"></span>
+</div><div class="field">
+    <label asp-for="Input.Email">Email address<span class="required" aria-hidden="true">*</span></label>
+    <input asp-for="Input.Email" class="control" type="email" autocomplete="username" required maxlength="254" aria-describedby="Input_Email_error Input_Email_hint" />
+    <div class="hint" id="Input_Email_hint">Use an address you can remember when signing in.</div>
+    <span asp-validation-for="Input.Email" class="field-error" id="Input_Email_error"></span>
+</div><div class="field">
+    <label asp-for="Input.Password">Password<span class="required" aria-hidden="true">*</span></label>
+    <div class="password-wrap"><input asp-for="Input.Password" class="control" type="password" autocomplete="new-password" required minlength="12" maxlength="128" value="" aria-describedby="Input_Password_error Input_Password_hint" /><button class="password-toggle" type="button" data-show-password="Input_Password" aria-label="Show password" aria-pressed="false">Show</button></div>
+    <div class="hint" id="Input_Password_hint">Use at least 12 characters.</div>
+    <span asp-validation-for="Input.Password" class="field-error" id="Input_Password_error"></span>
+</div><div class="field">
+    <label asp-for="Input.ConfirmPassword">Confirm password<span class="required" aria-hidden="true">*</span></label>
+    <div class="password-wrap"><input asp-for="Input.ConfirmPassword" class="control" type="password" autocomplete="new-password" required minlength="12" maxlength="128" value="" aria-describedby="Input_ConfirmPassword_error Input_ConfirmPassword_hint" /><button class="password-toggle" type="button" data-show-password="Input_ConfirmPassword" aria-label="Show confirm password" aria-pressed="false">Show</button></div>
+    <div class="hint" id="Input_ConfirmPassword_hint">Enter the same password again.</div>
+    <span asp-validation-for="Input.ConfirmPassword" class="field-error" id="Input_ConfirmPassword_error"></span>
+</div>
+            <div class="actions">
+                <button class="btn primary" type="submit">Create account</button>
+                <a class="btn ghost" asp-page="/JianYi/Account/Login" asp-route-returnUrl="@Model.ReturnUrl">Already have an account? Sign in</a>
+            </div>
+        </form>
+    </section>
+</div>

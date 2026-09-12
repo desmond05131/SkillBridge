@@ -1,0 +1,57 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Practical skills. Real progress.";
+}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a asp-page="/JianYi/Index">Home</a><partial name="_Icon" model='@("chevron")' /><span aria-current="page">Discover</span></nav>
+<section class="hero">
+    <div>
+        <div class="eyebrow">Small courses. Useful skills.</div>
+        <h1>Build the skills behind your next project.</h1>
+        <p>Learn Git and SQL through focused lessons, short demonstrations and self-assessment. Start at your pace and ask questions as you go.</p>
+        <div class="actions">
+            <a class="btn primary" asp-page="/ChangZhe/Courses/Index">Explore courses</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="btn secondary" asp-page="/ChangZhe/Courses/Mine">My courses</a>
+            }
+            @if (User.Identity?.IsAuthenticated != true)
+            {
+                <a class="btn secondary" asp-page="/JianYi/Account/Register">Create an account</a>
+            }
+        </div>
+    </div>
+    <div class="hero-art">
+        <div class="code-window">
+            <div class="window-top" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="prompt">$ git init skillbridge</div>
+            <div>Initialized empty Git repository.</div>
+            <div class="prompt">$ git add .</div>
+            <div class="prompt">$ git commit -m "Start learning"</div>
+        </div>
+        <div class="lesson-chip"><div class="row"><span class="avatar"><partial name="_Icon" model='@("check")' /></span><div><strong>Your first repository</strong><div class="small muted">One small step. A skill you can use.</div></div></div><span class="badge brand">Lesson 01</span></div>
+    </div>
+</section>
+<div class="section-heading">
+    <div><div class="eyebrow">Start something useful</div><h2>Choose your first learning path</h2><p>Focused learning paths for your next project.</p></div>
+    <a class="btn secondary" asp-page="/ChangZhe/Courses/Index">All courses</a>
+</div>
+@if (Model.FeaturedCourses.Count > 0)
+{
+    <div class="grid two">
+        @foreach (var course in Model.FeaturedCourses)
+        {
+            <partial name="_CourseCard" model="course" />
+        }
+    </div>
+}
+@if (Model.FeaturedCourses.Count == 0)
+{
+    <section class="card empty"><div class="empty-symbol"><partial name="_Icon" model='@("book")' /></div><h2>New learning paths are on their way</h2><p>Come back soon to explore practical skills for your next project.</p></section>
+}
+<div class="section-heading"><div><div class="eyebrow">A simple way to learn</div><h2>Keep moving, one step at a time.</h2></div></div>
+<div class="grid three">
+    <section class="card"><div class="card-body"><div class="step-number">01</div><h3>Choose your course</h3><p class="small step-copy">Browse the lessons and enrol when you are ready.</p></div></section>
+    <section class="card"><div class="card-body"><div class="step-number">02</div><h3>Learn by doing</h3><p class="small step-copy">Follow practical explanations, short videos and downloadable references.</p></div></section>
+    <section class="card"><div class="card-body"><div class="step-number">03</div><h3>Check your understanding</h3><p class="small step-copy">Review quiz feedback and discuss questions with other learners.</p></div></section>
+</div>

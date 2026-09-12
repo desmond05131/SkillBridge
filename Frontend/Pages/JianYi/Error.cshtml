@@ -1,0 +1,15 @@
+@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Something went wrong";
+}
+<section class="card empty">
+    <span class="eyebrow">Please try again</span>
+    <h1>We couldn’t complete that request.</h1>
+    <p>Your connection or our service may be temporarily unavailable.</p>
+    <a class="btn primary" asp-page="/JianYi/Index">Back to home</a>
+    @if (Model.ShowRequestId)
+    {
+        <p class="muted">Reference: @Model.RequestId</p>
+    }
+</section>

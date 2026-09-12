@@ -1,0 +1,13 @@
+@model string
+@switch (Model?.ToLowerInvariant())
+{
+    case "git":
+        <svg viewBox="0 0 310 145" width="100%" height="145" role="img" aria-label="Git branches joining into one project"><path d="M61 30v86m0-50c0 40 122-12 122 34V30" fill="none" stroke="#0F6E63" stroke-width="5"/><circle cx="61" cy="30" r="9" fill="#0A3A34"/><circle cx="61" cy="67" r="9" fill="#0F6E63"/><circle cx="61" cy="116" r="9" fill="#0A3A34"/><circle cx="183" cy="30" r="9" fill="#B45309"/><circle cx="183" cy="99" r="9" fill="#0F6E63"/><rect x="206" y="48" width="90" height="39" rx="6" fill="white"/><text x="220" y="73" fill="#0A3A34" font-family="IBM Plex Mono" font-size="15">git init</text></svg>
+        break;
+    case "sql":
+        <svg viewBox="0 0 310 145" width="100%" height="145" role="img" aria-label="Two related database tables"><rect x="18" y="15" width="117" height="111" rx="6" fill="white" stroke="#849BAD"/><path d="M18 47h117M18 73h117M18 99h117" stroke="#C6D5DF"/><text x="32" y="36" font-family="IBM Plex Mono" font-size="13" fill="#194C68">courses</text><text x="31" y="65" font-family="IBM Plex Mono" font-size="11" fill="#466270">id   title</text><text x="31" y="92" font-family="IBM Plex Mono" font-size="11" fill="#466270">01   Git</text><text x="31" y="118" font-family="IBM Plex Mono" font-size="11" fill="#466270">02   SQL</text><rect x="179" y="37" width="116" height="87" rx="6" fill="white" stroke="#849BAD"/><path d="M179 69h116M179 95h116" stroke="#C6D5DF"/><text x="191" y="58" font-family="IBM Plex Mono" font-size="12" fill="#194C68">enrolments</text><text x="191" y="87" font-family="IBM Plex Mono" font-size="10" fill="#466270">course_id  user</text><text x="191" y="114" font-family="IBM Plex Mono" font-size="11" fill="#466270">01         02</text><path d="M135 58h22v25h22" fill="none" stroke="#2B779B" stroke-width="2"/><circle cx="135" cy="58" r="4" fill="#2B779B"/><circle cx="179" cy="83" r="4" fill="#2B779B"/></svg>
+        break;
+    case "linux":
+        <svg viewBox="0 0 310 145" width="100%" height="145" role="img" aria-label="Linux terminal commands"><rect x="18" y="13" width="275" height="120" rx="7" fill="#23392E"/><circle cx="34" cy="27" r="3" fill="#E0B884"/><circle cx="45" cy="27" r="3" fill="#9AB78D"/><text x="36" y="60" fill="#E0EBCF" font-family="IBM Plex Mono" font-size="13">$ pwd</text><text x="36" y="84" fill="#98C5AA" font-family="IBM Plex Mono" font-size="12">/home/learner/projects</text><text x="36" y="110" fill="#E0EBCF" font-family="IBM Plex Mono" font-size="13">$ ls -la</text></svg>
+        break;
+}

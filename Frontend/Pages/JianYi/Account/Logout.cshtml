@@ -1,0 +1,7 @@
+@page
+@model SkillBridge.Web.Pages.Account.LogoutModel
+@{
+    ViewData["Title"] = "Sign out";
+}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a asp-page="/JianYi/Index">Home</a><partial name="_Icon" model='@("chevron")' /><span aria-current="page">Sign out</span></nav>
+<section class="confirm-card card"><div class="eyebrow">Your account</div><h1>Sign out of SkillBridge?</h1><p class="section-space">Your saved learning history will be here when you return.</p><form method="post"><div class="actions"><button type="submit" class="btn primary">Sign out</button><a class="btn secondary" asp-page="/JianYi/Index">Keep learning</a></div></form></section>

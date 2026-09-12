@@ -1,0 +1,29 @@
+@page
+@model SkillBridge.Web.Pages.Forum.IndexModel
+@{
+    ViewData["Title"] = "Community";
+}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">LEARN BETTER, TOGETHER</p>
+        <h1>A place to ask and share</h1>
+        <p>Practical questions. Helpful conversations.</p>
+    </div>
+</div>
+@if (Model.Discussions.Count == 0)
+{
+    <section class="card empty">
+        <h2>Our community is taking shape</h2>
+        <p>There are no discussions yet. Conversations will open soon.</p>
+        <a asp-page="/ChangZhe/Courses/Index" class="btn primary">Explore courses</a>
+    </section>
+}
+@foreach (var discussion in Model.Discussions)
+{
+    <article class="card section-space">
+        <div class="card-body">
+            <h2>@discussion.Title</h2>
+            <p class="muted">@discussion.AuthorName · @discussion.ReplyCount replies</p>
+        </div>
+    </article>
+}

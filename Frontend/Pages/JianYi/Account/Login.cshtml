@@ -1,0 +1,32 @@
+@page
+@model SkillBridge.Web.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a asp-page="/JianYi/Index">Home</a><partial name="_Icon" model='@("chevron")' /><span aria-current="page">Sign in</span></nav>
+<div class="auth-grid">
+    <partial name="_AuthStory" />
+    <section class="card auth-card">
+        <h1>Welcome back</h1>
+        <p class="muted small">Continue learning where you left off.</p>
+        <form method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="All" class="validation-summary" role="alert" tabindex="-1"></div>
+            <div class="field">
+    <label asp-for="Input.Email">Email address<span class="required" aria-hidden="true">*</span></label>
+    <input asp-for="Input.Email" class="control" type="email" autocomplete="username" required maxlength="254" aria-describedby="Input_Email_error" />
+
+    <span asp-validation-for="Input.Email" class="field-error" id="Input_Email_error"></span>
+</div><div class="field">
+    <label asp-for="Input.Password">Password<span class="required" aria-hidden="true">*</span></label>
+    <div class="password-wrap"><input asp-for="Input.Password" class="control" type="password" autocomplete="current-password" required maxlength="128" value="" aria-describedby="Input_Password_error" /><button class="password-toggle" type="button" data-show-password="Input_Password" aria-label="Show password" aria-pressed="false">Show</button></div>
+
+    <span asp-validation-for="Input.Password" class="field-error" id="Input_Password_error"></span>
+</div>
+            <div class="actions">
+                <button class="btn primary" type="submit">Sign in</button>
+                <a class="btn ghost" asp-page="/JianYi/Account/Register" asp-route-returnUrl="@Model.ReturnUrl">New to SkillBridge? Create an account</a>
+            </div>
+        </form>
+    </section>
+</div>

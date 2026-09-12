@@ -1,0 +1,25 @@
+@page
+@model SkillBridge.Web.Pages.Courses.DetailModel
+@{
+    ViewData["Title"] = Model.Detail.Course.Title;
+}
+<a asp-page="/ChangZhe/Courses/Index" class="breadcrumbs">← All courses</a>
+<div class="page-head">
+    <div>
+        <p class="eyebrow">@Model.Detail.Course.Category · @Model.Detail.Course.Level</p>
+        <h1>@Model.Detail.Course.Title</h1>
+        <p>@Model.Detail.Course.Summary</p>
+    </div>
+</div>
+@if (!Model.Detail.IsPublished)
+{
+    <div class="alert warning" role="status">Administrator preview. This draft is not visible in the public catalogue.</div>
+}
+<section class="card">
+    <div class="card-body">
+        <h2>About this course</h2>
+        <p class="body-copy">@Model.Detail.Description</p>
+        <p>@Model.Detail.Course.LessonCount lessons · @Model.Detail.Course.DurationMinutes minutes</p>
+        <p class="muted">Enrolment is not open yet.</p>
+    </div>
+</section>

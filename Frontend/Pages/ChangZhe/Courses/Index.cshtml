@@ -1,0 +1,34 @@
+@page
+@model SkillBridge.Web.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Courses";
+}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">A LITTLE LEARNING, EVERY DAY</p>
+        <h1>Find your next practical skill</h1>
+        <p>Focused courses to help you build with confidence.</p>
+    </div>
+</div>
+<form method="get" class="toolbar" role="search">
+    <div class="field">
+        <label asp-for="Search">Search courses</label>
+        <input asp-for="Search" class="control" type="search" maxlength="100" placeholder="Try Git or SQL" />
+        <span asp-validation-for="Search" class="field-error"></span>
+    </div>
+    <button class="btn primary" type="submit">Search</button>
+</form>
+@if (Model.Courses.Count == 0)
+{
+    <section class="card empty">
+        <h2>@(string.IsNullOrWhiteSpace(Model.Search) ? "New courses are on their way" : "No courses found")</h2>
+        <p>@(string.IsNullOrWhiteSpace(Model.Search) ? "Our learning team is preparing the first courses. Check back soon." : "Try another keyword or clear your search.")</p>
+        <a asp-page="/ChangZhe/Courses/Index" class="btn secondary">Clear search</a>
+    </section>
+}
+<div class="grid two">
+    @foreach (var course in Model.Courses)
+    {
+        <partial name="_CourseCard" model="course" />
+    }
+</div>

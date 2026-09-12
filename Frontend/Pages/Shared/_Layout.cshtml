@@ -1,0 +1,96 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? "/JianYi/Index";
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+    var displayName = User.Identity?.Name ?? "Learner";
+    var initials = string.Concat(displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(part => char.ToUpperInvariant(part[0])));
+    var isAdmin = User.IsInRole("Admin");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0F6E63" />
+    <meta name="description" content="Build practical technology skills with focused courses and a community that learns together." />
+    <title>@ViewData["Title"] · SkillBridge</title>
+    <link rel="icon" type="image/svg+xml" href="~/favicon.svg" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+        <div class="container header-content">
+            <a class="brand" asp-page="/JianYi/Index" aria-label="SkillBridge home">
+                <span class="brand-symbol"><partial name="_Icon" model='@("book")' /></span>
+                <span>SkillBridge</span>
+            </a>
+            <nav class="site-nav" id="main-navigation" aria-label="Main navigation">
+                <a class="nav-link @(currentPage.StartsWith("/ChangZhe/Courses") && currentPage != "/ChangZhe/Courses/Mine" ? "active" : "")" asp-page="/ChangZhe/Courses/Index">Courses</a>
+                @if (isAuthenticated && !isAdmin)
+                {
+                    <a class="nav-link @(currentPage == "/ChangZhe/Courses/Mine" ? "active" : "")" asp-page="/ChangZhe/Courses/Mine">My courses</a>
+                }
+                <a class="nav-link @(currentPage.StartsWith("/Hamzah/Forum") ? "active" : "")" asp-page="/Hamzah/Forum/Index">Community</a>
+                @if (isAdmin)
+                {
+                    <a class="nav-link @(currentPage.StartsWith("/JianYi/Admin") ? "active" : "")" asp-page="/JianYi/Admin/Index">Admin</a>
+                }
+                <div class="mobile-account">
+                    @if (isAuthenticated)
+                    {
+                        <a asp-page="/JianYi/Account/Profile">My profile</a>
+                        <form method="post" asp-page="/JianYi/Account/Logout"><button class="text-button" type="submit">Sign out</button></form>
+                    }
+                    @if (!isAuthenticated)
+                    {
+                        <a asp-page="/JianYi/Account/Login">Sign in</a>
+                        <a asp-page="/JianYi/Account/Register">Create account</a>
+                    }
+                </div>
+            </nav>
+            <div class="header-right">
+                @if (isAuthenticated)
+                {
+                    <a class="avatar" asp-page="/JianYi/Account/Profile" aria-label="My profile">@initials</a>
+                    <span class="user-name small">@displayName</span>
+                    <form class="desktop-signout" method="post" asp-page="/JianYi/Account/Logout"><button class="btn ghost small" type="submit">Sign out</button></form>
+                }
+                @if (!isAuthenticated)
+                {
+                    <a class="btn ghost" asp-page="/JianYi/Account/Login">Sign in</a>
+                    <a class="btn primary" asp-page="/JianYi/Account/Register">Create account</a>
+                }
+                <button class="btn secondary small mobile-menu" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="main-navigation" data-menu><partial name="_Icon" model='@("menu")' /> Menu</button>
+            </div>
+        </div>
+    </header>
+    <main id="main-content" class="site-main container" tabindex="-1">
+        @RenderBody()
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-row">
+                <div>
+                    <a class="brand" asp-page="/JianYi/Index"><partial name="_Icon" model='@("book")' /> SkillBridge</a>
+                    <p class="small muted footer-tagline">Practical skills. Steady progress.</p>
+                </div>
+                <nav class="footer-links" aria-label="Footer navigation">
+                    <a asp-page="/ChangZhe/Courses/Index">Courses</a>
+                    <a asp-page="/Hamzah/Forum/Index">Community</a>
+                    @if (isAuthenticated)
+                    {
+                        <a asp-page="/JianYi/Account/Profile">My profile</a>
+                    }
+                    @if (!isAuthenticated)
+                    {
+                        <a asp-page="/JianYi/Account/Login">Sign in</a>
+                    }
+                </nav>
+            </div>
+            <div class="footer-bottom"><span>© @DateTime.UtcNow.Year SkillBridge · A student learning project</span><span>Made for curious minds.</span></div>
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

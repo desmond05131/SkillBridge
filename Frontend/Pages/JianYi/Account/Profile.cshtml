@@ -1,0 +1,38 @@
+@page
+@model SkillBridge.Web.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = "My profile";
+    var displayName = User.Identity?.Name ?? "Learner";
+    var initials = string.Concat(displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(part => char.ToUpperInvariant(part[0])));
+}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a asp-page="/JianYi/Index">Home</a><partial name="_Icon" model='@("chevron")' /><span aria-current="page">My profile</span></nav>
+<div class="page-head"><div><h1>My profile</h1><p>Keep your account details up to date.</p></div></div>
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert success" role="status"><partial name="_Icon" model='@("check")' /><span>@Model.StatusMessage</span></div>
+}
+<div class="split">
+    <section class="card">
+        <div class="card-head"><h2>Personal details</h2></div>
+        <div class="card-body">
+            <div class="row profile-identity"><div class="avatar large">@initials</div><div><strong>@displayName</strong><br /><span class="badge brand">@(User.IsInRole("Admin") ? "Admin" : "Member")</span></div></div>
+            <form method="post">
+                <div asp-validation-summary="All" class="validation-summary" role="alert" tabindex="-1"></div>
+                <div class="field">
+    <label asp-for="Input.DisplayName">Full name<span class="required" aria-hidden="true">*</span></label>
+    <input asp-for="Input.DisplayName" class="control" type="text" autocomplete="name" required minlength="2" maxlength="80" aria-describedby="Input_DisplayName_error Input_DisplayName_hint" />
+    <div class="hint" id="Input_DisplayName_hint">Your display name in course discussions.</div>
+    <span asp-validation-for="Input.DisplayName" class="field-error" id="Input_DisplayName_error"></span>
+</div>
+                <div class="field">
+    <label asp-for="Input.Email">Email address<span class="required" aria-hidden="true">*</span></label>
+    <input asp-for="Input.Email" class="control" type="email" autocomplete="username" required maxlength="254" aria-describedby="Input_Email_error Input_Email_hint" />
+    <div class="hint" id="Input_Email_hint">Used when signing in.</div>
+    <span asp-validation-for="Input.Email" class="field-error" id="Input_Email_error"></span>
+</div>
+                <div class="actions"><button class="btn primary" type="submit">Save changes</button><a class="btn secondary" asp-page="/JianYi/Account/ChangePassword">Change password</a></div>
+            </form>
+        </div>
+    </section>
+    <partial name="_AccountHelp" />
+</div>

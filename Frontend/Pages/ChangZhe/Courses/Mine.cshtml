@@ -1,0 +1,26 @@
+@page
+@model SkillBridge.Web.Pages.Courses.MineModel
+@{
+    ViewData["Title"] = "My courses";
+}
+<div class="page-head">
+    <div>
+        <h1>My courses</h1>
+        <p>Your next small step starts here.</p>
+    </div>
+    <a asp-page="/ChangZhe/Courses/Index" class="btn primary">Browse courses</a>
+</div>
+@if (Model.Courses.Count == 0)
+{
+    <section class="card empty">
+        <h2>Your next skill starts here</h2>
+        <p>You have no published courses in your learning list yet.</p>
+        <a asp-page="/ChangZhe/Courses/Index" class="btn primary">Explore courses</a>
+    </section>
+}
+<div class="grid two">
+    @foreach (var course in Model.Courses)
+    {
+        <partial name="_CourseCard" model="course" />
+    }
+</div>

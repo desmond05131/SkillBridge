@@ -1,0 +1,30 @@
+@model string
+<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    @switch (Model)
+    {
+        case "check":
+            <path d="m5 12 4 4L19 6"/>
+            break;
+        case "chevron":
+            <path d="m9 5 7 7-7 7"/>
+            break;
+        case "book":
+            <path d="M3 4h7l2 2 2-2h7v15h-7l-2 2-2-2H3zM12 6v15"/>
+            break;
+        case "menu":
+            <path d="M4 6h16M4 12h16M4 18h16"/>
+            break;
+        case "lock":
+            <rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>
+            break;
+        case "clock":
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/>
+            break;
+        case "message":
+            <path d="M4 4h16v12H9l-5 5Z"/>
+            break;
+        case "info":
+            <circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/>
+            break;
+    }
+</svg>

@@ -1,0 +1,11 @@
+@page "{code:int}"
+@model SkillBridge.Web.Pages.StatusModel
+@{
+    ViewData["Title"] = Model.Heading;
+}
+<section class="card empty">
+    <p class="eyebrow">@Model.ResponseStatusCode</p>
+    <h1>@Model.Heading</h1>
+    <p>Return to a familiar page and try again.</p>
+    <a asp-page="/JianYi/Index" class="btn primary">Back to home</a>
+</section>
