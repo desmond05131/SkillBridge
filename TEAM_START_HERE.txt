@@ -8,6 +8,13 @@ Login, registration, profile, password change, shared layout and Admin setup.
 Basic course, forum, lesson and quiz reading pages. All five owners have files.
 The database starts with three draft courses. Empty lists are normal.
 
+ASSIGNMENT MARKS
+Report: 50% shared. Each area is 10%: introduction; storyboard/requirements;
+design/modelling; implementation/discussion; conclusion/style/formatting.
+Website and presentation: 50% per person. Each area is 10%: layout;
+authentication/access; dynamic content; insert/update/delete;
+validation/navigation/usability. Show and explain all five in your own part.
+
 YOUR PART
 Jian Yi (JianYi): Home, accounts, Admin users and shared layout.
   Finish user create/edit/delete. Review and combine everyone's work.
@@ -21,7 +28,7 @@ Timothy (Timothy): Quizzes, attempts, marking, results and history.
 Hamzah (Hamzah): Forum threads, replies, moderation and announcements.
   Add create/edit/delete with the correct author and Admin permissions.
 
-Each person handles their pages, C# logic, SQL and validation.
+Each person codes, documents and presents their pages, C# logic and SQL.
 Use the shared login; check access for your own pages and actions.
 
 WHERE TO WORK
@@ -39,14 +46,23 @@ STEPS
 2. Open your Figma board using the link in README.md. Start with the files
    already in your folder, then add the remaining pages on your board.
 3. Reuse the layout, CSS and login. Use one form for Create/Edit.
-   Our scope has no separate mobile pages, quiz timer or account closure.
+   Our scope has no separate mobile pages, quiz timer or self-service account closure.
 4. Connect your pages to MySQL using parameterised SQL. Check input and
    permissions in C#. Coordinate shared files and SQL changes with Jian Yi.
 5. Run dotnet build. Test saving, editing, deleting, invalid input and access
    as a visitor, Member and Admin. Check links between everyone's pages.
+   Demonstrate a real DELETE of an unused record; deactivation is an UPDATE.
 6. Commit your source changes and open a pull request for Jian Yi to review.
    Keep screenshots and SQL explanations for your report and presentation.
 
-Before submission, we still need finished features, real learning content,
-shared demo data, combined testing, the final report and the presentation.
+REPORT CHECK
+Include introduction/objectives/scope/schedule; audience, use cases and flowcharts;
+storyboard, ERD, major wireframes and navigation map; CSS/validation/SQL
+explanations; screenshot user guide; conclusion, references and proposal appendix.
+Use a cover, contents and page numbers; Times New Roman 12, 1.5 spacing,
+justified text. Explain selected code, not the full source listing.
+
+Before submission, finish the features, real content, shared demo data,
+combined testing, report and presentation. Update the older proposal to match
+this scope: it still promises features we removed, including account closure.
 Keep passwords, bin/, obj/, editor files and helper scripts out of commits.
