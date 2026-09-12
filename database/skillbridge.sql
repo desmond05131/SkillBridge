@@ -222,23 +222,6 @@ CREATE TABLE IF NOT EXISTS forum_replies (
     CONSTRAINT ck_replies_body CHECK (CHAR_LENGTH(body) BETWEEN 2 AND 3000)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS announcements (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    author_id BIGINT NOT NULL,
-    title VARCHAR(120) NOT NULL,
-    body VARCHAR(2000) NOT NULL,
-    is_active BOOLEAN NOT NULL DEFAULT FALSE,
-    activated_at_utc TIMESTAMP NULL DEFAULT NULL,
-    created_at_utc TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at_utc TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_announcements_author FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE RESTRICT,
-    CONSTRAINT ck_announcements_title CHECK (CHAR_LENGTH(TRIM(title)) BETWEEN 3 AND 120),
-    CONSTRAINT ck_announcements_body CHECK (CHAR_LENGTH(body) BETWEEN 10 AND 2000),
-    CONSTRAINT ck_announcements_active CHECK (is_active IN (0, 1)),
-    CONSTRAINT ck_announcements_activation CHECK (is_active = 0 OR activated_at_utc IS NOT NULL),
-    INDEX ix_announcements_active (is_active, activated_at_utc, id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 INSERT INTO roles (name) SELECT 'Member' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'Member');
 INSERT INTO roles (name) SELECT 'Admin' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'Admin');
 

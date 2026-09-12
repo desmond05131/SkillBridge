@@ -25,10 +25,12 @@ Passwords stay on your machine. The starting courses are drafts, so lists are in
 
 ## Your Figma pages
 
-| Owner | Design |
-|---|---|
-| Jian Yi | [Accounts and Admin](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-2) |
-| Chang Zhe | [Courses](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-37) |
-| Darren | [Lessons and resources](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-23) |
-| Timothy | [Quizzes](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-72) |
-| Hamzah | [Forum and announcements](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-56) |
+30 layouts in total. Create and Edit share one form.
+
+| Owner | Layouts | Design |
+|---|---:|---|
+| Jian Yi | 9 | [Accounts and Admin](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-2) |
+| Chang Zhe | 5 | [Courses](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-37) |
+| Darren | 5 | [Lessons and resources](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-23) |
+| Timothy | 7 | [Quizzes](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-72) |
+| Hamzah | 4 | [Forum](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-56) |

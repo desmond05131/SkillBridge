@@ -15,17 +15,20 @@ Website and presentation: 50% per person. Each area is 10%: layout;
 authentication/access; dynamic content; insert/update/delete;
 validation/navigation/usability. Show and explain all five in your own part.
 
-YOUR PART
-Jian Yi (JianYi): Home, accounts, Admin users and shared layout.
+YOUR PART - 30 LAYOUTS TOTAL
+Jian Yi (JianYi), 9 layouts: Home, accounts, Admin users and shared layout.
   Finish user create/edit/delete. Review and combine everyone's work.
-Chang Zhe (ChangZhe): Courses, categories, My Courses and enrol/drop.
-  Add Admin course/category create/edit/delete and links to lessons/quizzes.
-Darren (Darren): Lessons, video/resources, downloads and progress.
+Chang Zhe (ChangZhe), 5 layouts: Catalogue, course details, My Courses,
+  Admin course list and course editor. Add enrol/drop and course CRUD.
+  Use the existing categories; add links to lessons/quizzes.
+Darren (Darren), 5 layouts: Lessons, video/resources, downloads and progress.
   Add Admin lesson/resource create/edit/delete. Make your own lesson content
   and short videos; play videos with an HTML5 video element.
-Timothy (Timothy): Quizzes, attempts, marking, results and history.
+Timothy (Timothy), 7 layouts: Quizzes, attempts, marking and results.
   Add Admin quiz/question create/edit/delete. Calculate marks in C#.
-Hamzah (Hamzah): Forum threads, replies, moderation and announcements.
+  Show saved attempt history inside the quiz overview.
+Hamzah (Hamzah), 4 layouts: Forum list, thread/replies, thread editor
+  and Admin moderation.
   Add create/edit/delete with the correct author and Admin permissions.
 
 Each person codes, documents and presents their pages, C# logic and SQL.
@@ -46,7 +49,8 @@ STEPS
 2. Open your Figma board using the link in README.md. Start with the files
    already in your folder, then add the remaining pages on your board.
 3. Reuse the layout, CSS and login. Use one form for Create/Edit.
-   Our scope has no separate mobile pages, quiz timer or self-service account closure.
+   Do not add category management, announcements or a separate history page.
+   No separate mobile pages, quiz timer or self-service account closure.
 4. Connect your pages to MySQL using parameterised SQL. Check input and
    permissions in C#. Coordinate shared files and SQL changes with Jian Yi.
 5. Run dotnet build. Test saving, editing, deleting, invalid input and access
@@ -63,6 +67,6 @@ Use a cover, contents and page numbers; Times New Roman 12, 1.5 spacing,
 justified text. Explain selected code, not the full source listing.
 
 Before submission, finish the features, real content, shared demo data,
-combined testing, report and presentation. Update the older proposal to match
-this scope: it still promises features we removed, including account closure.
+combined testing, report and presentation. Use the revised 30-layout scope
+in the proposal and report.
 Keep passwords, bin/, obj/, editor files and helper scripts out of commits.
