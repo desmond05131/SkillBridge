@@ -13,7 +13,9 @@ public class DetailModel(
     public CourseDetail? Course { get; private set; }
 
     public List<LessonRow> Lessons { get; } = [];
-    public record LessonRow(long Id, string Title, int DurationMinutes);
+    public record LessonRow(long Id, string Title, int DurationMinutes, bool IsCompleted);
+    public LessonRow? ContinueLesson => Lessons.FirstOrDefault(lesson => !lesson.IsCompleted) ?? Lessons.FirstOrDefault();
+    public bool AllLessonsCompleted => Lessons.Count > 0 && Lessons.All(lesson => lesson.IsCompleted);
 
     public bool HasStarted { get; private set; }
 
@@ -106,11 +108,17 @@ public class DetailModel(
 
         await using (var outline = connection.CreateCommand())
         {
-            outline.CommandText = "SELECT id, title, duration_minutes FROM lessons WHERE course_id = @id ORDER BY sequence_number, id";
+            outline.CommandText = """
+                SELECT l.id, l.title, l.duration_minutes,
+                    EXISTS(SELECT 1 FROM lesson_progress p WHERE p.lesson_id=l.id
+                        AND p.user_id=@userId AND p.is_completed=TRUE)
+                FROM lessons l WHERE l.course_id=@id ORDER BY l.sequence_number, l.id
+                """;
+            outline.Parameters.AddWithValue("@userId", GetCurrentUserId());
             outline.Parameters.AddWithValue("@id", id);
             await using var lessons = await outline.ExecuteReaderAsync(ct);
             while (await lessons.ReadAsync(ct))
-                Lessons.Add(new LessonRow(lessons.GetInt64(0), lessons.GetString(1), lessons.GetInt32(2)));
+                Lessons.Add(new LessonRow(lessons.GetInt64(0), lessons.GetString(1), lessons.GetInt32(2), lessons.GetBoolean(3)));
         }
 
         long? userId = GetCurrentUserId();
@@ -194,7 +202,12 @@ public class DetailModel(
         }
 
         await transaction.CommitAsync(ct);
-        CourseMessage = "Course saved to My Courses. You can start learning anytime.";
+        var page = await OnGetAsync(id, ct);
+        if (page is not PageResult) return page;
+        if (ContinueLesson is { } lesson)
+            return RedirectToPage("/Darren/Lessons/View", new { id = lesson.Id });
+
+        CourseMessage = "Course saved to My Courses. Lessons are being prepared.";
 
         return RedirectToPage(
             "/ChangZhe/Courses/Detail",

@@ -13,7 +13,7 @@ public sealed class MineModel(
     ICourseReader courses,
     MySqlConnectionFactory database) : PageModel
 {
-    public record LearningState(int CompletedLessons, long? FirstLessonId, long? QuizId);
+    public record LearningState(int CompletedLessons, long? ContinueLessonId, long? QuizId);
     public Dictionary<long, LearningState> Learning { get; } = [];
 
     public IReadOnlyList<CourseSummary> Courses { get; private set; } = [];
@@ -37,7 +37,9 @@ public sealed class MineModel(
             SELECT c.id,
                 (SELECT COUNT(*) FROM lesson_progress p JOIN lessons l ON l.id = p.lesson_id
                  WHERE l.course_id = c.id AND p.user_id = @userId AND p.is_completed = TRUE),
-                (SELECT l.id FROM lessons l WHERE l.course_id = c.id ORDER BY l.sequence_number, l.id LIMIT 1),
+                (SELECT l.id FROM lessons l WHERE l.course_id = c.id
+                 ORDER BY EXISTS(SELECT 1 FROM lesson_progress p WHERE p.lesson_id=l.id
+                     AND p.user_id=@userId AND p.is_completed=TRUE), l.sequence_number, l.id LIMIT 1),
                 (SELECT q.id FROM quizzes q WHERE q.course_id = c.id AND q.is_published = TRUE LIMIT 1)
             FROM courses c JOIN enrolments e ON e.course_id = c.id
             WHERE e.user_id = @userId AND c.is_published = TRUE

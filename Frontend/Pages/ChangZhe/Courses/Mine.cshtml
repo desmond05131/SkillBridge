@@ -113,9 +113,9 @@
                         <!-- Course actions -->
                         <div class="cz-mine-actions">
 
-                            @if (learning?.FirstLessonId is { } lessonId)
+                            @if (learning?.ContinueLessonId is { } lessonId)
                             {
-                                <a asp-page="/Darren/Lessons/View" asp-route-id="@lessonId" class="cz-mine-button primary">@(completedLessons > 0 ? "Continue learning" : "Start learning")</a>
+                                <a asp-page="/Darren/Lessons/View" asp-route-id="@lessonId" class="cz-mine-button primary">@(completedLessons == course.LessonCount ? "Review lessons" : completedLessons > 0 ? "Continue learning" : "Start learning")</a>
                             }
                             else
                             {

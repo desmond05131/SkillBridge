@@ -268,9 +268,9 @@
                                 ✓ Saved in My Courses
                             </div>
 
-                            @if (Model.Lessons.Count > 0)
+                            @if (Model.ContinueLesson is { } continueLesson)
                             {
-                                <a asp-page="/Darren/Lessons/View" asp-route-id="@Model.Lessons[0].Id" class="cz-detail-btn primary full">Continue learning</a>
+                                <a asp-page="/Darren/Lessons/View" asp-route-id="@continueLesson.Id" class="cz-detail-btn primary full">@(Model.AllLessonsCompleted ? "Review lessons" : "Continue learning")</a>
                             }
                             <a asp-page="/ChangZhe/Courses/Mine" class="cz-detail-btn secondary full">My courses</a>
                         }

@@ -16,7 +16,7 @@ public sealed class IndexModel(ICourseReader courses, MySqlConnectionFactory dat
     public string? Category { get; set; }
 
     [BindProperty(SupportsGet = true), RegularExpression("^(title|popular|newest)$")]
-    public string Sort { get; set; } = "popular";
+    public string? Sort { get; set; } = "popular";
 
     public List<string> Categories { get; } = [];
 
@@ -31,6 +31,7 @@ public sealed class IndexModel(ICourseReader courses, MySqlConnectionFactory dat
         while (await reader.ReadAsync(cancellationToken))
             Categories.Add(reader.GetString(0));
 
+        Sort ??= "popular";
         if (!ModelState.IsValid) return Page();
 
         Courses = await courses.GetPublishedAsync(Search, cancellationToken, Category, Sort);
