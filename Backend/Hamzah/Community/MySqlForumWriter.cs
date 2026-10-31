@@ -165,4 +165,20 @@ public sealed class MySqlForumWriter(MySqlConnectionFactory connectionFactory) :
         var authorId = await command.ExecuteScalarAsync(cancellationToken);
         return authorId is not null && (isAdmin || Convert.ToInt64(authorId) == requesterId);
     }
+    public async Task<bool> UpdateReplyAsync(long threadId, long replyId, long userId, bool isAdmin, string body, CancellationToken cancellationToken)
+    {
+        await using var connection = await connectionFactory.OpenAsync(cancellationToken);
+        await using var command = connection.CreateCommand();
+        command.CommandText = """
+            UPDATE forum_replies r JOIN forum_threads t ON t.id=r.thread_id SET r.body=@body
+            WHERE r.id=@reply AND r.thread_id=@thread AND (r.author_id=@user OR @admin=TRUE)
+              AND (t.is_locked=FALSE OR @admin=TRUE);
+            """;
+        command.Parameters.AddWithValue("@reply", replyId);
+        command.Parameters.AddWithValue("@thread", threadId);
+        command.Parameters.AddWithValue("@user", userId);
+        command.Parameters.AddWithValue("@admin", isAdmin);
+        command.Parameters.AddWithValue("@body", body);
+        return await command.ExecuteNonQueryAsync(cancellationToken) > 0;
+    }
 }

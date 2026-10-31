@@ -2022,3 +2022,6 @@ textarea:focus-visible {
 .edit-btn:hover {
     background-color: #5f4703;
 }
+
+.lesson-media { display:block; width:100%; max-height:540px; margin:16px 0; border-radius:12px; }
+.resource-transcript { white-space:pre-wrap; }

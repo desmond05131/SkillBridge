@@ -37,6 +37,7 @@
     </div>
 </section>
 
+@if(Model.StatusMessage is not null) { <p role="status">@Model.StatusMessage</p> }
 <h2>Replies (@Model.Replies.Count)</h2>
 @foreach (var reply in Model.Replies)
 {
@@ -52,6 +53,15 @@
             <p class="body-copy">@reply.Body</p>
             @if (Model.IsModerator || (User.Identity?.IsAuthenticated == true && reply.AuthorId.ToString() == User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value))
             {
+                @if (!Model.Thread.IsLocked || Model.IsModerator)
+                {
+                    <details><summary>Edit reply</summary>
+                    <form method="post" asp-page-handler="EditReply" asp-route-id="@Model.Thread.Id">
+                        <input type="hidden" name="ReplyId" value="@reply.Id" />
+                        <label for="reply-edit-@reply.Id">Reply text</label><textarea id="reply-edit-@reply.Id" name="EditedReplyBody" class="control" minlength="2" maxlength="3000" required>@reply.Body</textarea>
+                        <button class="btn secondary" type="submit">Save reply</button>
+                    </form></details>
+                }
                 <form method="post" asp-page-handler="DeleteReply" asp-route-id="@Model.Thread.Id" data-confirm="Delete this reply?">
                     <input type="hidden" name="ReplyId" value="@reply.Id" />
                     <button type="submit" class="btn ghost small">Delete reply</button>

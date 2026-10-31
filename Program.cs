@@ -32,6 +32,8 @@ builder.Services.AddScoped<ILessonReader, MySqlLessonDetailReader>();
 builder.Services.AddScoped<SkillBridge.Backend.Darren.Lessons.ILessonReader, SkillBridge.Backend.Darren.Data.MySqlLessonReader>();
 builder.Services.AddScoped<IQuizReader, MySqlQuizReader>();
 builder.Services.AddScoped<QuizAttemptStore>();
+builder.Services.AddScoped<QuestionStore>();
+builder.Services.AddScoped<ResourceStore>();
 builder.Services.AddRazorPages(options =>
 {
     // Files stay in their owner's folder, while visitors see short URLs such as /Admin/Users.

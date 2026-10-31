@@ -1,14 +1,14 @@
 @page
 @model SkillBridge.Backend.Pages.Darren.Admin.Resources.IndexModel
 @{ ViewData["Title"] = "Resources"; }
-<h1>Resources</h1>
-<p>Resource upload, editing, download and media playback still need to be implemented.</p>
-<a asp-page="Edit" class="btn secondary">View resource form</a>
-<div class="card table-wrap section-space">
-<table class="data-table"><thead><tr><th>Title</th><th>Lesson</th><th>Type</th></tr></thead><tbody>
-@foreach (var resource in Model.Resources)
+<div class="page-head"><div><h1>Resources</h1><p>Manage downloadable guides and lesson media.</p></div><a asp-page="Edit" class="btn primary">Upload resource</a></div>
+@if(Model.StatusMessage is not null) { <p role="status">@Model.StatusMessage</p> }
+<div class="card table-wrap"><table class="data-table"><thead><tr><th>Title</th><th>Lesson</th><th>Type / size</th><th>Actions</th></tr></thead><tbody>
+@foreach(var resource in Model.Resources)
 {
-    <tr><td>@resource.Title</td><td>@resource.LessonTitle</td><td>@resource.FileType</td></tr>
+<tr><td>@resource.Title</td><td>@resource.LessonTitle</td><td>@resource.Type / @((resource.Size/1024d).ToString("N0")) KiB</td><td class="actions">
+<a asp-page="/Darren/Lessons/View" asp-route-id="@resource.LessonId">Preview</a><a asp-page="Edit" asp-route-id="@resource.Id">Edit</a>
+<form method="post" asp-page-handler="Delete" asp-route-id="@resource.Id" data-confirm="Delete this resource?"><button class="btn danger" type="submit">Delete</button></form></td></tr>
 }
-@if (Model.Resources.Count == 0) { <tr><td colspan="3">No resources saved.</td></tr> }
+@if(Model.Resources.Count==0) { <tr><td colspan="4">No resources saved.</td></tr> }
 </tbody></table></div>

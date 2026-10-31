@@ -44,15 +44,17 @@ public sealed class QuizAttemptStore(MySqlConnectionFactory connections)
     public async Task<long> StartAsync(long quizId, long userId, CancellationToken cancellationToken)
     {
         await using var connection = await connections.OpenAsync(cancellationToken);
-        await using var command = connection.CreateCommand();
-        command.CommandText = """
-            INSERT INTO attempts (quiz_id,user_id) VALUES (@quizId,@userId)
-            ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id);
-            SELECT LAST_INSERT_ID();
-            """;
+        await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
+        await using var command = new MySqlCommand("SELECT id FROM quizzes WHERE id=@quizId FOR UPDATE;", connection, transaction);
         command.Parameters.AddWithValue("@quizId", quizId);
+        if (await command.ExecuteScalarAsync(cancellationToken) is null) throw new System.ComponentModel.DataAnnotations.ValidationException("Quiz no longer exists.");
+        if (!IsReady(await ReadQuestionsAsync(connection, transaction, quizId, cancellationToken)))
+            throw new System.ComponentModel.DataAnnotations.ValidationException("The quiz is being updated. Please try again.");
+        command.CommandText = "INSERT INTO attempts (quiz_id,user_id) VALUES (@quizId,@userId) ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id); SELECT LAST_INSERT_ID();";
         command.Parameters.AddWithValue("@userId", userId);
-        return Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken));
+        var id = Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken));
+        await transaction.CommitAsync(cancellationToken);
+        return id;
     }
 
     public async Task<SavedAttempt?> FindAsync(long attemptId, long userId, CancellationToken cancellationToken)
@@ -101,7 +103,7 @@ public sealed class QuizAttemptStore(MySqlConnectionFactory connections)
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var history = new List<AttemptHistory>();
         while (await reader.ReadAsync(cancellationToken))
-            history.Add(new(reader.GetInt64("id"),reader.GetInt32("number"),reader.GetInt32("earned_marks"),reader.GetInt32("maximum_marks"),reader.GetDateTime("submitted_at_utc"),reader.GetBoolean("passed")));
+            history.Add(new(reader.GetInt64("id"), reader.GetInt32("number"), reader.GetInt32("earned_marks"), reader.GetInt32("maximum_marks"), reader.GetDateTime("submitted_at_utc"), reader.GetBoolean("passed")));
         return history;
     }
 

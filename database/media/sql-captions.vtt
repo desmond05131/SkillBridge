@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:08.000
+Select needed columns. A SELECT query reads data. Choose columns that answer your question.
+
+00:00:08.000 --> 00:00:16.000
+Filter the result. WHERE keeps only rows matching the condition.
+
+00:00:16.000 --> 00:00:24.000
+Make order explicit. ORDER BY requests a predictable output order.
+
+00:00:24.000 --> 00:00:32.000
+Bind application values. Bind user values as parameters. Do not paste them into SQL text.

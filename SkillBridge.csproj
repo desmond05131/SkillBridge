@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <Content Include="Frontend/wwwroot/**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Remove="database/**" />
+    <Content Include="database/**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

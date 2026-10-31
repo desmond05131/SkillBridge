@@ -1,0 +1,22 @@
+@page
+@model SkillBridge.Web.Pages.Admin.Questions.EditModel
+@{ ViewData["Title"]=Model.Input.Id==0 ? "Add question" : "Edit question"; }
+<a asp-page="Index" asp-route-quizId="@Model.Input.QuizId" class="breadcrumbs">Back to questions</a>
+<div class="page-head"><div><p class="eyebrow">@Model.Quiz.Title</p><h1>@ViewData["Title"]</h1></div></div>
+@if(Model.Quiz.HasAttempts || Model.Quiz.Published) { <p class="alert warning">This quiz is read-only. Existing attempts and published questions are protected.</p> }
+<form method="post" class="card card-body">
+<div asp-validation-summary="All" class="field-error" role="alert"></div>
+<input asp-for="Input.Id" type="hidden" /><input asp-for="Input.QuizId" type="hidden" />
+<fieldset disabled="@(Model.Quiz.HasAttempts || Model.Quiz.Published)">
+<div class="field"><label asp-for="Input.Text">Question</label><textarea asp-for="Input.Text" rows="3" class="control"></textarea></div>
+<div class="grid two"><div class="field"><label asp-for="Input.SequenceNumber">Order</label><input asp-for="Input.SequenceNumber" class="control" /></div><div class="field"><label asp-for="Input.Marks">Marks</label><input asp-for="Input.Marks" class="control" /></div></div>
+<fieldset><legend>Four options: select one correct answer</legend>
+@foreach(var index in Enumerable.Range(0,4))
+{
+<div class="field"><label for="option-@index">Option @(index+1)</label><input id="option-@index" name="Input.Options[@index]" value="@(Model.Input.Options?.ElementAtOrDefault(index))" maxlength="500" required class="control" />
+<label class="quiz-option"><input type="radio" name="Input.CorrectOption" value="@index" checked="@(Model.Input.CorrectOption==index)" required /> Correct answer</label></div>
+}
+</fieldset>
+<div class="field"><label asp-for="Input.Explanation">Explanation shown after submission</label><textarea asp-for="Input.Explanation" rows="4" class="control"></textarea></div>
+<button class="btn primary" type="submit">Save question</button></fieldset>
+</form>

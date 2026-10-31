@@ -4,9 +4,9 @@
     ViewData["Title"] = "Create Quiz";
 }
 
-<div class="admin-layout">
+<div class="">
     <!-- Main Content Area -->
-    <main class="container">
+    <section class="container">
         <a asp-page="/Timothy/Admin/Quizzes/Index" class="breadcrumbs">Admin > Quizzes > Create quiz</a>
 
         <div class="page-head">
@@ -26,48 +26,48 @@
 
         <div class="split">
             <!-- Left Form Column -->
-            <form method="post" class="card form-card">
+            <form method="post" class="card card-body">
                 <div asp-validation-summary="All" class="field-error"></div>
                 <div class="form-header">
                     <h2>Quiz details</h2>
                     <span class="required-note">* Required</span>
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label asp-for="Title">Quiz title *</label>
-                    <input asp-for="Title" class="form-control" placeholder="e.g. Practice course check" required />
-                    <span asp-validation-for="Title" class="text-danger"></span>
+                    <input asp-for="Title" class="control" placeholder="e.g. Practice course check" required />
+                    <span asp-validation-for="Title" class="field-error"></span>
                     <small class="muted">3–100 characters.</small>
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label asp-for="CourseId">Course *</label>
-                    <select asp-for="CourseId" class="form-control" required>
+                    <select asp-for="CourseId" class="control" required>
                         <option value="">Select a course...</option>
                         @foreach (var course in Model.Courses) { <option value="@course.Id">@course.Title</option> }
                     </select>
-                    <span asp-validation-for="CourseId" class="text-danger"></span>
-                    <small class="muted">An unused draft course with no quiz yet.</small>
+                    <span asp-validation-for="CourseId" class="field-error"></span>
+                    <small class="muted">A course with no quiz yet.</small>
                 </div>
 
-                <div class="form-group">
-                    <label>Instructions </label>
-                    <textarea asp-for="instructions" class="form-control" rows="4" placeholder="Enter instructions for students..." required></textarea>
-                    <span asp-validation-for="instructions" class="text-danger"></span>
+                <div class="field">
+                    <label asp-for="instructions">Instructions</label>
+                    <textarea asp-for="instructions" class="control" rows="4" placeholder="Enter instructions for students..." required></textarea>
+                    <span asp-validation-for="instructions" class="field-error"></span>
                     <small class="muted">30–600 characters.</small>
                 </div>
 
-                <div class="form-row two-col">
-                    <div class="form-group">
+                <div class="grid two">
+                    <div class="field">
                         <label asp-for="pass_percentage">Pass percentage *</label>
-                        <input asp-for="pass_percentage" type="number" min="1" max="100" step="0.01" class="form-control" required />
-                        <span asp-validation-for="pass_percentage" class="text-danger"></span>
+                        <input asp-for="pass_percentage" type="number" min="1" max="100" step="0.01" class="control" required />
+                        <span asp-validation-for="pass_percentage" class="field-error"></span>
                         <small class="muted">Percentage from 1 to 100.</small>
                     </div>
 
-                    <div class="form-group">
+                    <div class="field">
                         <label asp-for="IsPublished">Publication status *</label>
-                        <select asp-for="IsPublished" class="form-control">
+                        <select asp-for="IsPublished" class="control">
                             <option value="false">Draft</option>
                             <option value="true">Published</option>
                         </select>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <div class="form-actions">
+                <div class="actions">
                     <button type="submit" class="btn primary">Create quiz</button>
                     <a asp-page="/Timothy/Admin/Quizzes/Index" class="btn secondary">Cancel</a>
                 </div>
@@ -107,5 +107,5 @@
                 </div>
             </aside>
         </div>
-    </main>
+    </section>
 </div>

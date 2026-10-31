@@ -17,7 +17,8 @@
     <nav aria-label="Administration">
         @foreach (var link in links)
         {
-            var isActive = currentPage.StartsWith(link.Prefix, StringComparison.Ordinal);
+            var isActive = currentPage.StartsWith(link.Prefix, StringComparison.Ordinal)
+                || (link.Label == "Quizzes" && currentPage.StartsWith("/Timothy/Admin/Questions/", StringComparison.Ordinal));
             <a asp-page="@link.Page" class="admin-sidebar-link @(isActive ? "active" : "")" aria-current="@(isActive ? "page" : null)">@link.Label</a>
         }
     </nav>

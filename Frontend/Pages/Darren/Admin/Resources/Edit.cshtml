@@ -1,140 +1,18 @@
 @page "{id:long?}"
 @model SkillBridge.Backend.Pages.Darren.Admin.Resources.EditModel
-@{
-    ViewData["Title"] = "Darren - 05 Upload / edit resource";
-}
-
-
-
-<div class="d-flex w-100 align-items-stretch">
-    <!-- Left Sidebar -->
-    
-
-            <!-- Main Content Area -->
-            <main class="flex-grow-1 p-4 bg-light">
-                <!-- Breadcrumb -->
-                <div class="small mb-3 text-muted">
-                    <span class="sb-text-teal fw-medium">Admin</span>
-                    <span class="mx-1">&gt;</span>
-                    <a asp-page="Index" class="sb-text-teal fw-medium text-decoration-none">Resources</a>
-                    <span class="mx-1">&gt;</span>
-                    <span>@(Model.IsEditMode ? "Edit resource" : "Upload resource")</span>
-                </div>
-
-                <p class="alert warning">This form is a draft. Upload and saving are not implemented yet.</p>
-                <h1 class="fw-bold fs-2 text-dark mb-1">@(Model.IsEditMode ? "Edit resource" : "Upload resource")</h1>
-                <p class="text-muted small mb-4">Add one accessible file to its parent lesson.</p>
-
-                <div class="row g-4">
-                    <!-- Left Form Card -->
-                    <div class="col-lg-8">
-                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-white">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="fw-bold m-0">Resource details</h5>
-                                <span class="text-muted small">* Required</span>
-                            </div>
-
-                            <form method="post" enctype="multipart/form-data">
-                                <div asp-validation-summary="All" class="field-error"></div>
-                                <input type="hidden" asp-for="Resource.Id" />
-
-                                <!-- Resource Title -->
-                                <div class="mb-3">
-                                    <label class="form-label small fw-semibold text-dark">Resource title *</label>
-                                    <input type="text" asp-for="Resource.Title" class="form-control"
-                                           placeholder="e.g. Linux command reference" required />
-                                    <small class="text-muted">3–100 characters.</small>
-                                </div>
-
-                                <!-- Lesson & Resource Type Dropdowns -->
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-semibold text-dark">Lesson *</label>
-                                        <select asp-for="Resource.LessonId" class="form-select" required>
-                                            <option value="">Select lesson...</option>
-                                            
-                                            
-                                        </select>
-                                        <small class="text-muted">Choose the lesson that controls access.</small>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-semibold text-dark">Resource type *</label>
-                                        <select asp-for="Resource.Type" class="form-select" required>
-                                            <option value="PDF">PDF</option>
-                                            <option value="Video">Video</option>
-                                            <option value="Audio">Audio</option>
-                                        </select>
-                                        <small class="text-muted">Type must match the uploaded file.</small>
-                                    </div>
-                                </div>
-
-                                <!-- Description -->
-                                <div class="mb-3">
-                                    <label class="form-label small fw-semibold text-dark">Description *</label>
-                                    <textarea asp-for="Resource.Description" class="form-control" rows="3"
-                                              placeholder="A one-page reminder of navigation, file and permission commands."
-                                              required></textarea>
-                                    <small class="text-muted">10–300 characters.</small>
-                                </div>
-
-                                <!-- Transcript / Equivalent Text -->
-                                <div class="mb-4">
-                                    <label class="form-label small fw-semibold text-dark">Transcript / equivalent text</label>
-                                    <textarea asp-for="Resource.Transcript" class="form-control" rows="3"></textarea>
-                                    <small class="text-muted">Required for audio/video. For a PDF, provide an accessible text
-                                        equivalent in the lesson when needed.</small>
-                                    </div>
-
-                                    <!-- File Picker Dropzone -->
-                                    <div class="mb-4 p-4 border border-2 border-dashed rounded-3 bg-light text-center">
-                                        <i class="bi bi-upload fs-2 sb-text-teal mb-2"></i>
-                                        <div class="fw-bold text-dark mb-1">linux-command-reference.pdf</div>
-                                        <div class="text-muted small mb-3">PDF document, MP4 video or MP3 audio</div>
-                            
-                                        <input type="file" asp-for="UploadedFile" class="form-control w-75 mx-auto bg-white" />
-                                        <small class="text-muted d-block mt-2">PDF up to 10 MB; MP4 video up to 50 MB; MP3 audio up
-                                            to 10 MB.</small>
-                                        </div>
-
-                                        <!-- Form Actions -->
-                                        <div class="d-flex gap-2">
-                                            <button type="submit" class="btn sb-btn-teal fw-semibold px-4 py-2">Upload resource</button>
-                                            <a asp-page="Index"
-                                               class="btn secondary bg-white text-dark fw-semibold px-4 py-2">Cancel</a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!-- Right Guidance Sidebar -->
-                            <div class="col-lg-4">
-                                <div class="card border-0 shadow-sm p-3 mb-3 rounded-3 bg-white">
-                                    <h6 class="fw-bold text-dark mb-2">Accepted files</h6>
-                                    <div class="d-flex justify-content-between small text-muted mb-1">
-                                        <span>PDF document</span>
-                                        <span class="fw-semibold">Up to 10 MB</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between small text-muted mb-1">
-                                        <span>MP4 video</span>
-                                        <span class="fw-semibold">Up to 50 MB</span>
-                                    </div>
-                                    <div class="d-flex justify-content-between small text-muted mb-3">
-                                        <span>MP3 audio</span>
-                                        <span class="fw-semibold">Up to 10 MB</span>
-                                    </div>
-                                    <small class="text-muted border-top pt-2">Upload only learning material you have permission to
-                                        use.</small>
-                                    </div>
-
-                                    <div class="card border-0 shadow-sm p-3 rounded-3 bg-white">
-                                        <h6 class="fw-bold text-dark mb-2">Accessible learning</h6>
-                                        <p class="small text-muted mb-2">Include a transcript for every video or audio resource. Explain
-                                            important visual information in the lesson text.</p>
-                                            <div class="p-2 bg-light rounded text-muted extra-small">
-                                                Files are available only to authorised learners and administrators.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </main>
-                        </div>
+@{ ViewData["Title"] = Model.IsEditMode ? "Edit resource" : "Upload resource"; }
+<a asp-page="Index" class="breadcrumbs">Back to resources</a>
+<div class="page-head"><div><p class="eyebrow">LESSON MATERIALS</p><h1>@ViewData["Title"]</h1><p>Attach one accessible file to a lesson.</p></div></div>
+<form method="post" enctype="multipart/form-data" class="card card-body">
+    <div asp-validation-summary="All" class="field-error" role="alert"></div>
+    <input type="hidden" asp-for="Resource.Id" />
+    <div class="field"><label asp-for="Resource.Title">Title</label><input asp-for="Resource.Title" class="control" /></div>
+    <div class="field"><label asp-for="Resource.LessonId">Lesson</label><select asp-for="Resource.LessonId" class="control"><option value="">Select lesson</option>
+    @foreach(var lesson in Model.Lessons) { <option value="@lesson.Id">@lesson.Title</option> }</select></div>
+    <div class="field"><label asp-for="Resource.Type">Type</label><select asp-for="Resource.Type" class="control"><option value="Pdf">PDF</option><option>Video</option><option>Audio</option></select></div>
+    <div class="field"><label asp-for="Resource.Description">Description</label><textarea asp-for="Resource.Description" class="control" rows="3"></textarea></div>
+    <div class="field"><label asp-for="UploadedFile">File</label><input asp-for="UploadedFile" type="file" accept=".pdf,.mp4,.mp3,.wav" class="control" /><p class="muted">PDF/audio: up to 10 MB. MP4 video: up to 50 MB. Leave blank when editing to keep the existing file.</p></div>
+    <div class="field"><label asp-for="Resource.Transcript">Transcript / equivalent text</label><textarea asp-for="Resource.Transcript" class="control" rows="6"></textarea></div>
+    <div class="field"><label asp-for="CaptionsFile">Video captions (.vtt)</label><input asp-for="CaptionsFile" type="file" accept=".vtt" class="control" /><p class="muted">Required for new videos. Leave blank when editing to retain existing captions.</p></div>
+    <div class="actions"><button type="submit" class="btn primary">Save resource</button><a asp-page="Index" class="btn secondary">Cancel</a></div>
+</form>

@@ -1,3 +1,44 @@
+COMPLETION UPDATE - 31 OCTOBER 2026
+
+All five agreed modules are now integrated. The 30 October notes below record
+what the forks contained at integration time; their unfinished items are resolved.
+
+Added after integration:
+- Darren: PDF/MP4/MP3/WAV uploads, metadata/file replacement and deletion;
+  private file storage, enrolment/publication checks, range-enabled playback,
+  WebVTT captions, transcripts and protected downloads.
+- Timothy: question/option Create/Edit/Delete, exactly one correct answer,
+  duplicate-option checks, explanations and marks. Published/attempted quizzes
+  are protected; starting attempts and editing questions share a database lock.
+- Hamzah: reply editing with author/Admin and locked-thread checks.
+- Shared: three courses, six lessons, nine resources and nine questions in
+  database/course_content.sql. The import is repeatable without duplicates.
+  database/media/README.txt identifies the illustrated clips and synthetic audio.
+- Changed lesson/quiz form classes to the shared CSS because Bootstrap is absent.
+  Kept the teammates' handlers, routes and module ownership.
+- Packaged database/media with published output so resource links still work.
+
+These additions are integration/completion work, not claims about who originally
+wrote them. Each member must understand and demonstrate their assigned module.
+
+FINAL VERIFICATION
+Release build and publish succeeded. All 51 automated tests passed, including
+account/role checks, course enrolment, lesson progress, real resource uploads,
+protected downloads, video ranges/captions, question CRUD, scoring and forum ownership.
+The teaching import was run twice against a fresh review database without duplicates.
+Chrome checks covered enrolment, learner media and the lesson/question editors.
+Published output also loaded its bundled media. Test databases were isolated.
+Temporary test tools and build output are not part of the assignment repository.
+
+SETUP AND REPORT
+Follow README.md. Use a fresh database for your final demo, import course_content,
+create your own local accounts and use the website to add discussion examples.
+For a final database export, include any matching private uploaded resource files.
+Do not submit secrets, bin, obj, editor settings or temporary review scripts.
+Use actual final screenshots and code in the report; do not describe old placeholders.
+
+HISTORICAL INTEGRATION NOTES FOLLOW
+
 TEAM INTEGRATION REVIEW - 30 OCTOBER 2026
 
 Reviewed separately, then combined:

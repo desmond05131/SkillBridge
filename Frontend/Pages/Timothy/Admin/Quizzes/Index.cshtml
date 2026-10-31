@@ -52,6 +52,7 @@ else
                             <span class="badge @(quiz.IsPublished ? "success" : "warning")">@(quiz.IsPublished ? "Published" : "Draft")</span>
                         </td>
                         <td class="actions">
+                            <a asp-page="/Timothy/Admin/Questions/Index" asp-route-quizId="@quiz.Id">Questions</a>
                             <a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@quiz.Id" aria-label="Preview @quiz.Title">Preview</a>
                             <a class="edit-btn" asp-page="/Timothy/Admin/Quizzes/Update" asp-route-id="@quiz.Id">Edit</a>
                             <form method="post" asp-page-handler="Delete" asp-route-quizId="@quiz.Id" data-confirm="Delete this unused quiz?">

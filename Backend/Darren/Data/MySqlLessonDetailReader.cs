@@ -58,7 +58,7 @@ public sealed class MySqlLessonDetailReader(MySqlConnectionFactory connectionFac
     {
         await using var command = connection.CreateCommand();
         command.CommandText = """
-            SELECT r.title, r.description, r.resource_type, r.size_bytes
+            SELECT r.id, r.title, r.description, r.resource_type, r.size_bytes, r.transcript, r.captions_storage_key
             FROM resources r
             INNER JOIN lessons l ON l.id = r.lesson_id
             INNER JOIN courses c ON c.id = l.course_id
@@ -74,7 +74,7 @@ public sealed class MySqlLessonDetailReader(MySqlConnectionFactory connectionFac
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var resources = new List<LessonResource>();
         while (await reader.ReadAsync(cancellationToken))
-            resources.Add(new LessonResource(reader.GetString("title"), reader.GetString("description"), reader.GetString("resource_type"), reader.GetInt64("size_bytes")));
+            resources.Add(new LessonResource(reader.GetString("title"), reader.GetString("description"), reader.GetString("resource_type"), reader.GetInt64("size_bytes"), reader.GetInt64("id"), reader.GetString("transcript"), !reader.IsDBNull(reader.GetOrdinal("captions_storage_key"))));
 
         return resources;
     }

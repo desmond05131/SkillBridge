@@ -10,17 +10,17 @@
         <!-- Main Content Area -->
         <div class="col-lg-10 col-md-9 ps-lg-4">
             <!-- Clean Breadcrumb -->
-            <div class="text-muted small mb-3">
+            <div class="muted small field">
                 <span>Admin</span> <span class="mx-1">&gt;</span> <span class="text-dark fw-semibold">Lessons</span>
             </div>
 
             <!-- Header & Action Buttons on Same Level -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="actions justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="fw-bold mb-1">Lessons</h2>
-                    <p class="text-muted small mb-0">Write, order and maintain every course lesson.</p>
+                    <p class="muted small mb-0">Write, order and maintain every course lesson.</p>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="actions gap-2">
                     <a asp-page="Edit" class="btn primary fw-bold px-3 py-2 text-nowrap">Create lesson</a>
                     <a asp-page="/Darren/Admin/Resources/Index" class="btn secondary">Manage resources</a>
                 </div>
@@ -30,18 +30,18 @@
             <div class="card card-body shadow-sm border-0 mb-4 bg-light">
                 <form method="get" class="row g-3 align-items-end">
                     <div class="col-md-3">
-                        <label class="form-label small text-muted fw-bold">Course</label>
-                        <select asp-for="CourseId" class="form-select form-select-sm">
+                        <label asp-for="CourseId">Course</label>
+                        <select asp-for="CourseId" class="control form-select-sm">
                             <option value="">All courses</option>
                             @foreach (var course in Model.Courses) { <option value="@course.Id">@course.Title</option> }
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label small text-muted fw-bold">Search</label>
-                        <input type="text" asp-for="Search" class="form-control form-control-sm"
+                    <div class="">
+                        <label asp-for="Search">Search</label>
+                        <input type="text" asp-for="Search" class="control form-control-sm"
                                placeholder="Search lesson title." />
                     </div>
-                    <div class="col-md-3 d-flex gap-2">
+                    <div class="col-md-3 actions gap-2">
                         <button type="submit" class="btn btn-sm primary w-50 fw-bold">Apply filters</button>
                         <a asp-page="Index" class="btn btn-sm secondary w-50 fw-bold text-center">Clear</a>
                     </div>
@@ -50,9 +50,9 @@
 
             <!-- Lessons Data Table -->
             <div class="card border-0 shadow-sm">
-                <div class="table-responsive">
+                <div class="table-wrap">
                     <table class="data-table">
-                        <thead class="table-light text-muted small text-uppercase">
+                        <thead class="table-light muted small text-uppercase">
                             <tr>
                                 <th class="py-3 ps-3">Course / order</th>
                                 <th class="py-3">Lesson</th>
@@ -72,16 +72,16 @@
                                         <td class="text-center">@lesson.DurationMinutes</td>
                                         <td class="text-center">@lesson.ResourceCount</td>
                                         <td class="text-end pe-3 text-nowrap">
-                                            <div class="d-inline-flex gap-1 align-items-center">
+                                            <div class="actions gap-1 align-items-center">
                                                 <a asp-page="/Darren/Lessons/View" asp-route-id="@lesson.Id"
-                                                   class="btn btn-sm btn-outline-dark px-2 py-1">Preview</a>
+                                                   class="btn btn-sm secondary px-2 py-1">Preview</a>
                                                 <a asp-page="Edit" asp-route-id="@lesson.Id"
                                                    class="btn btn-sm secondary px-2 py-1">Edit</a>
                                                 <form method="post" asp-page-handler="Delete" asp-route-id="@lesson.Id"
                                                       class="d-inline m-0 p-0"
                                                       data-confirm="Delete this lesson?">
                                                     <button type="submit"
-                                                            class="btn btn-sm btn-danger px-2 py-1">Delete</button>
+                                                            class="btn btn-sm danger px-2 py-1">Delete</button>
                                                 </form>
                                             </div>
                                         </td>
@@ -98,7 +98,7 @@
             </div>
 
             <!-- Footer summary -->
-            <div class="d-flex justify-content-between align-items-center mt-3 text-muted small px-1">
+            <div class="actions justify-content-between align-items-center mt-3 muted small px-1">
                 <div>Showing lessons</div>
                 <div>Sorted by the current list order</div>
             </div>

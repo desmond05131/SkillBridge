@@ -1,32 +1,27 @@
-TIMOTHY - TRY THE QUIZ
+TIMOTHY - QUIZZES
 
-1. Follow README.md to set up MySQL and run the website.
-   Replace YOUR_USER and YOUR_PASSWORD with your own MySQL details.
-2. Run database/quiz_example.sql in MySQL Workbench.
-   It adds one example course and quiz. Running it again adds no duplicate.
-3. Sign in as a Member. Open Courses, select SQL Quiz Practice and enrol.
-4. Open My Courses, select the quiz, then Start or resume quiz.
-5. Answer both questions and submit. Check the result and attempt history.
-   SELECT + INSERT scores 4/4. Only SELECT correct scores 3/4 (below the 80% pass mark).
-   Admins can also open Admin > Quizzes > Preview.
+1. Pull latest main. Follow README.md and import database/course_content.sql.
+2. Sign in as Admin. Open Quizzes > Questions to see the shared examples.
+3. To practise authoring, create a course and a draft quiz. Open Questions,
+   add four distinct options, choose one correct answer and add an explanation.
+4. Publish the quiz in Edit. Sign in as a Member, enrol in that course,
+   then open My Courses > quiz. Submit answers and check the score and history.
 
-WHERE TO WORK
-
-Frontend/Pages/Timothy/Quizzes/: the HTML pages.
-Backend/Pages/Timothy/Quizzes/: handles opening pages and submitting forms.
-Backend/Timothy/Quizzes/QuizAttemptStore.cs: loads questions and saves/marks attempts.
-Backend/Timothy/Quizzes/MySqlQuizReader.cs: reads quiz and course details.
+FILES
+Frontend/Pages/Timothy/: page appearance.
+Backend/Pages/Timothy/: page handlers and input checks.
+Backend/Timothy/Quizzes/QuestionStore.cs: question/option SQL.
+Backend/Timothy/Quizzes/QuizAttemptStore.cs: attempts, scoring and saved answers.
+Backend/Timothy/Quizzes/MySqlQuizReader.cs: quiz/course queries.
 
 Start = overview/history; Quiz = answer form; Review = saved result.
-Use website links. Do not open a .cshtml file or its folder path in the browser.
-Example URL: /Quizzes/Start?quizId=1 (replace 1 with a real quiz ID).
-The login uses cookie claims, not Session. The connection name is SkillBridge.
+Use website links, never the .cshtml file path.
+Login uses cookie claims. The database connection name is SkillBridge.
+
+Questions are editable only while the quiz is a draft with no attempts.
+Once an attempt exists, assessment content stays locked to protect saved results.
+Answers save on Submit. There is no timer or separate history page.
 
 NEXT
-
-Quiz Create/Edit/Delete is integrated. Finish question/option Create/Edit/Delete.
-Read TEAM_INTEGRATION_REVIEW.txt for the fixes and remaining work.
-Each question needs four options and exactly one correct answer.
-Keep attempted quizzes unchanged so saved reviews retain their meaning.
-The answer page currently shows all questions together; answers save on Submit.
-Commit source files on your branch, not a ZIP of the project.
+Test the flow above, capture report screenshots and understand the SQL and marking.
+Do not replace main with an old ZIP. Make any further changes on your own branch.

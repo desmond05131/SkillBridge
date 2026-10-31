@@ -37,7 +37,15 @@ public sealed class StartModel(IQuizReader quizzes, QuizAttemptStore attempts) :
         if (result is not PageResult) return result;
         if (!IsReady) return Page();
         var userId = long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var attemptId = await attempts.StartAsync(quizId, userId, cancellationToken);
-        return RedirectToPage("/Timothy/Quizzes/Quiz", new { attemptId });
+        try
+        {
+            var attemptId = await attempts.StartAsync(quizId, userId, cancellationToken);
+            return RedirectToPage("/Timothy/Quizzes/Quiz", new { attemptId });
+        }
+        catch (System.ComponentModel.DataAnnotations.ValidationException exception)
+        {
+            ModelState.AddModelError(string.Empty, exception.Message);
+            return Page();
+        }
     }
 }

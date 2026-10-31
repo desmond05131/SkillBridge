@@ -6,49 +6,49 @@
 
 <div class="container py-4">
     <h2>@(Model.IsCreate ? "Create lesson" : "Edit lesson")</h2>
-    <p class="text-muted">Add or update course lesson details and text content.</p>
+    <p class="muted">Add or update course lesson details and text content.</p>
 
     <form method="post" class="card card-body shadow-sm">
-        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+        <div asp-validation-summary="All" class="field-error field"></div>
 
-        <div class="mb-3">
+        <div class="field">
             <label asp-for="Input.CourseId" class="form-label fw-bold">Course *</label>
-            <select asp-for="Input.CourseId" class="form-select">
+            <select asp-for="Input.CourseId" class="control">
                 <option value="">Select a course...</option>
                 @foreach (var c in Model.Courses)
                 {
                     <option value="@c.Id">@c.Title</option>
                 }
             </select>
-            <span asp-validation-for="Input.CourseId" class="text-danger"></span>
+            <span asp-validation-for="Input.CourseId" class="field-error"></span>
         </div>
 
-        <div class="mb-3">
+        <div class="field">
             <label asp-for="Input.Title" class="form-label fw-bold">Lesson Title *</label>
-            <input asp-for="Input.Title" class="form-control" placeholder="e.g. Meet Git and your first repository" />
-            <span asp-validation-for="Input.Title" class="text-danger"></span>
+            <input asp-for="Input.Title" class="control" placeholder="e.g. Meet Git and your first repository" />
+            <span asp-validation-for="Input.Title" class="field-error"></span>
         </div>
 
-        <div class="row">
-            <div class="col-md-6 mb-3">
+        <div class="grid two">
+            <div class="field">
                 <label asp-for="Input.OrderIndex" class="form-label fw-bold">Order Index *</label>
-                <input asp-for="Input.OrderIndex" type="number" class="form-control" />
-                <span asp-validation-for="Input.OrderIndex" class="text-danger"></span>
+                <input asp-for="Input.OrderIndex" type="number" class="control" />
+                <span asp-validation-for="Input.OrderIndex" class="field-error"></span>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="field">
                 <label asp-for="Input.DurationMinutes" class="form-label fw-bold">Duration (Minutes) *</label>
-                <input asp-for="Input.DurationMinutes" type="number" class="form-control" />
-                <span asp-validation-for="Input.DurationMinutes" class="text-danger"></span>
+                <input asp-for="Input.DurationMinutes" type="number" class="control" />
+                <span asp-validation-for="Input.DurationMinutes" class="field-error"></span>
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="field">
             <label asp-for="Input.Content" class="form-label fw-bold">Lesson Text / Instructions *</label>
-            <textarea asp-for="Input.Content" class="form-control" rows="8" placeholder="Write full lesson instructions, command examples, or background notes here..."></textarea>
-            <span asp-validation-for="Input.Content" class="text-danger"></span>
+            <textarea asp-for="Input.Content" class="control" rows="8" placeholder="Write full lesson instructions, command examples, or background notes here..."></textarea>
+            <span asp-validation-for="Input.Content" class="field-error"></span>
         </div>
 
-        <div class="d-flex gap-2">
+        <div class="actions gap-2">
             <button type="submit" class="btn primary">@(Model.IsCreate ? "Create lesson" : "Save changes")</button>
             <a asp-page="Index" class="btn secondary">Cancel</a>
         </div>

@@ -1,7 +1,7 @@
 SKILLBRIDGE - WAPP GROUP 3
 
 We are building a learning website using Razor Pages, C# and MySQL.
-This is a working starter, not the finished assignment.
+The five coding modules are integrated. Now test your part and prepare the report.
 
 CURRENT PLAN
 Follow this guide, the Figma links in README.md, and the revised proposal
@@ -15,9 +15,10 @@ Read JIAN_YI_EXAMPLE.txt for the code walkthrough and checks to run.
 Chang Zhe's course CRUD, thumbnails, catalogue filters and enrol/drop are integrated.
 My Courses reads saved lesson progress and links to available lessons and quizzes.
 Lesson CRUD/progress, forum/moderation and admin quiz CRUD are integrated.
-Darren must finish resources/media; Timothy must finish question/option CRUD.
-Read TEAM_INTEGRATION_REVIEW.txt for corrections, tested scope and remaining work.
-The database starts with three draft courses. Empty lists are normal.
+Resource upload/playback/download and question/option CRUD are complete.
+Forum replies can also be edited by their author or an Admin.
+Read TEAM_INTEGRATION_REVIEW.txt for corrections and tested scope.
+Run database/course_content.sql after the main schema for shared lesson and quiz content.
 
 ASSIGNMENT MARKS
 Report: 50% shared. Each area is 10%: introduction; storyboard/requirements;
@@ -33,10 +34,10 @@ Chang Zhe (ChangZhe), 5 layouts: Catalogue, course details, My Courses,
   Admin course list and course editor. Course CRUD and enrol/drop are integrated.
   Review the combined flow with Darren and Timothy, then collect report evidence.
 Darren (Darren), 5 layouts: Lessons, video/resources, downloads and progress.
-  Lesson CRUD is integrated. Finish resource create/edit/delete. Make your own lesson content
-  and short videos; play videos with an HTML5 video element.
+  Lesson/resource CRUD, protected downloads, HTML5 video/audio and progress are integrated.
+  Review the bundled teaching materials and capture your report evidence.
 Timothy (Timothy), 7 layouts: Quizzes, attempts, marking and results.
-  Quiz CRUD is integrated. Finish question/option create/edit/delete. Calculate marks in C#.
+  Quiz/question/option CRUD and C# marking are integrated.
   Show saved attempt history inside the quiz overview.
 Hamzah (Hamzah), 4 layouts: Forum list, thread/replies, thread editor
   and Admin moderation.
@@ -60,7 +61,7 @@ STEPS
    to run the website and create a local Admin account.
    Existing databases need database/migrations/001_add_course_thumbnail.sql.
 2. Open your Figma board using the link in README.md. Start with the files
-   already in your folder, then add the remaining pages on your board.
+   already in your folder. Review the finished workflows before changing them.
 3. Reuse the layout, CSS and login. Use one form for Create/Edit.
    Add admin menu links in Shared/_AdminSidebar.cshtml, not individual pages.
    Do not add category management, announcements or a separate history page.
@@ -81,7 +82,7 @@ explanations; screenshot user guide; conclusion, references and proposal appendi
 Use a cover, contents and page numbers; Times New Roman 12, 1.5 spacing,
 justified text. Explain selected code, not the full source listing.
 
-Before submission, finish the features, real content, shared demo data,
-combined testing, report and presentation. Use the revised 30-layout scope
+Before submission, rehearse the combined demonstration and finish the report
+and presentation. Use the revised 30-layout scope
 in the proposal and report.
 Keep passwords, bin/, obj/, editor files and helper scripts out of commits.

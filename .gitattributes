@@ -2,3 +2,7 @@
 *.ttf binary
 *.png binary
 Frontend/wwwroot/assets/licenses/*.txt -whitespace
+
+*.pdf binary
+*.mp4 binary
+*.wav binary

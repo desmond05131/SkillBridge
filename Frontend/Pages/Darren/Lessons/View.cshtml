@@ -37,11 +37,19 @@
                 <h3>@resource.Title</h3>
                 <p class="muted">@resource.ResourceType · @((resource.SizeBytes / 1024d).ToString("N0")) KiB</p>
                 <p>@resource.Description</p>
+                @if (resource.ResourceType == "Video")
+                {
+                    <video controls preload="metadata" class="lesson-media">
+                        <source src="@Url.Page("/Darren/Resources/File", new { id = resource.Id })" type="video/mp4" />
+                        @if (resource.HasCaptions) { <track kind="captions" srclang="en" label="English" src="@Url.Page("/Darren/Resources/File", new { id = resource.Id, captions = true })" default /> }
+                        Your browser does not support this video. Download it below.
+                    </video>
+                }
+                @if (resource.ResourceType == "Audio")
+                { <audio controls preload="metadata" class="lesson-media" src="@Url.Page("/Darren/Resources/File", new { id = resource.Id })">Download the audio below.</audio> }
+                <a asp-page="/Darren/Resources/File" asp-route-id="@resource.Id" asp-route-download="true" class="btn secondary">Download @resource.ResourceType</a>
+                <details class="section-space"><summary>Transcript / equivalent text</summary><p class="resource-transcript">@resource.Transcript</p></details>
             </div>
-        }
-        @if (Model.Detail.Resources.Count > 0)
-        {
-            <p class="muted">Downloads and media playback are not available yet.</p>
         }
     </div>
 </section>

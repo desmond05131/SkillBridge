@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit Quiz";
 }
 
-<main class="container">
+<section class="container">
     <a asp-page="/Timothy/Admin/Quizzes/Index" class="breadcrumbs">← Back to Quizzes</a>
 
     <div class="page-head">
@@ -17,46 +17,46 @@
         <div class="alert error">@Model.ErrorMessage</div>
     }
 
-    <form method="post" class="card form-card">
+    <form method="post" class="card card-body">
                 <div asp-validation-summary="All" class="field-error"></div>
         <!-- Hidden ID so the backend knows which record to update, but immutable to the user -->
         <input type="hidden" asp-for="QuizId" />
 
         <!-- Course ID is displayed or locked, not editable via free text -->
-        <div class="form-group">
+        <div class="field">
             <label>Associated Course ID: <strong>@Model.CourseId</strong></label>
         </div>
 
-        <div class="form-group">
+        <div class="field">
             <label asp-for="Title">Quiz Title *</label>
-            <input asp-for="Title" class="form-control" required />
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <input asp-for="Title" class="control" required />
+            <span asp-validation-for="Title" class="field-error"></span>
         </div>
 
-        <div class="form-group">
+        <div class="field">
             <label asp-for="Instructions">Instructions *</label>
-            <textarea asp-for="Instructions" class="form-control" rows="4" required></textarea>
-            <span asp-validation-for="Instructions" class="text-danger"></span>
+            <textarea asp-for="Instructions" class="control" rows="4" required></textarea>
+            <span asp-validation-for="Instructions" class="field-error"></span>
         </div>
 
-        <div class="form-row two-col">
-            <div class="form-group">
+        <div class="grid two">
+            <div class="field">
                 <label asp-for="PassPercentage">Pass Percentage *</label>
-                <input asp-for="PassPercentage" type="number" min="1" max="100" step="0.01" class="form-control" required />
+                <input asp-for="PassPercentage" type="number" min="1" max="100" step="0.01" class="control" required />
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <label asp-for="IsPublished">Publication Status *</label>
-                <select asp-for="IsPublished" class="form-control">
+                <select asp-for="IsPublished" class="control">
                     <option value="false">Draft</option>
                     <option value="true">Published</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-actions">
+        <div class="actions">
             <button type="submit" class="btn primary">Save Changes</button>
             <a asp-page="/Timothy/Admin/Quizzes/Index" class="btn secondary">Cancel</a>
         </div>
     </form>
-</main>
+</section>

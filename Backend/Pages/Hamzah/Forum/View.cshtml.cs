@@ -40,7 +40,7 @@ public sealed class ViewModel(IForumReader forum, IForumWriter forumWriter) : Pa
         return Page();
     }
 
-   
+
     public async Task<IActionResult> OnPostReplyAsync(long id, CancellationToken cancellationToken)
     {
         var thread = await forum.GetThreadAsync(id, cancellationToken);
@@ -71,7 +71,7 @@ public sealed class ViewModel(IForumReader forum, IForumWriter forumWriter) : Pa
         return RedirectToPage(new { id });
     }
 
-    
+
     public async Task<IActionResult> OnPostDeleteThreadAsync(long id, CancellationToken cancellationToken)
     {
         if (!TryUserId(out var userId)) return Challenge();
@@ -82,7 +82,7 @@ public sealed class ViewModel(IForumReader forum, IForumWriter forumWriter) : Pa
         return RedirectToPage("/Hamzah/Forum/Index");
     }
 
-   
+
     public async Task<IActionResult> OnPostDeleteReplyAsync(long id, CancellationToken cancellationToken)
     {
         if (!TryUserId(out var userId)) return Challenge();
@@ -90,6 +90,21 @@ public sealed class ViewModel(IForumReader forum, IForumWriter forumWriter) : Pa
         var deleted = await forumWriter.DeleteReplyAsync(ReplyId, userId, IsModerator, cancellationToken);
         if (!deleted) return Forbid();
 
+        return RedirectToPage(new { id });
+    }
+    [BindProperty] public string? EditedReplyBody { get; set; }
+    [TempData] public string? StatusMessage { get; set; }
+    public async Task<IActionResult> OnPostEditReplyAsync(long id, CancellationToken cancellationToken)
+    {
+        if (!TryUserId(out var userId)) return Challenge();
+        var body = EditedReplyBody?.Trim();
+        if (body is null || body.Length < 2 || body.Length > 3000)
+        {
+            StatusMessage = "Replies must contain 2 to 3,000 characters.";
+            return RedirectToPage(new { id });
+        }
+        if (!await forumWriter.UpdateReplyAsync(id, ReplyId, userId, IsModerator, body, cancellationToken)) return Forbid();
+        StatusMessage = "Reply updated.";
         return RedirectToPage(new { id });
     }
 }

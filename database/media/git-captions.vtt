@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:08.000
+Create a repository. Start in a new practice folder so your assignment files stay separate.
+
+00:00:08.000 --> 00:00:16.000
+Inspect before staging. Status lists changed files. Diff shows changes that have not been staged.
+
+00:00:16.000 --> 00:00:24.000
+Stage and review. Stage one intended file, then inspect exactly what the commit will contain.
+
+00:00:24.000 --> 00:00:32.000
+Record the snapshot. A commit records the staged snapshot. Log shows the saved history.
