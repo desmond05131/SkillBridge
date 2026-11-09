@@ -11,10 +11,15 @@ namespace SkillBridge.Web.Pages.Admin.Quizzes;
 public sealed class IndexModel(IQuizReader quizzes, MySqlConnectionFactory connections) : PageModel
 {
     public IReadOnlyList<QuizSummary> Quizzes { get; private set; } = [];
+    [BindProperty(SupportsGet = true), System.ComponentModel.DataAnnotations.StringLength(120)]
+    public string? Search { get; set; }
+    [BindProperty(SupportsGet = true), System.ComponentModel.DataAnnotations.RegularExpression("^(Draft|Published)$", ErrorMessage = "Choose a valid publication status.")]
+    public string? Status { get; set; }
 
     public async Task OnGetAsync(CancellationToken cancellationToken)
     {
-        Quizzes = await quizzes.GetAllAsync(cancellationToken);
+        if (!ModelState.IsValid) return;
+        Quizzes = await quizzes.GetAllAsync(cancellationToken, Search, Status);
     }
     //
     [TempData] public string? StatusMessage { get; set; }

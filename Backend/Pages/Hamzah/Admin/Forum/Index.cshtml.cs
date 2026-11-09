@@ -10,6 +10,10 @@ namespace SkillBridge.Web.Pages.Hamzah.Admin;
 public sealed class IndexModel(IForumReader forum, IForumWriter forumWriter) : PageModel
 {
     public IReadOnlyList<DiscussionSummary> Threads { get; private set; } = [];
+    [BindProperty(SupportsGet = true), System.ComponentModel.DataAnnotations.StringLength(120)]
+    public string? Search { get; set; }
+    [BindProperty(SupportsGet = true), System.ComponentModel.DataAnnotations.RegularExpression("^(Open|Pinned|Locked)$", ErrorMessage = "Choose a valid discussion status.")]
+    public string? Status { get; set; }
 
     [BindProperty]
     public long ModerateThreadId { get; set; }
@@ -25,7 +29,8 @@ public sealed class IndexModel(IForumReader forum, IForumWriter forumWriter) : P
 
     public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
     {
-        Threads = await forum.GetAllAsync(cancellationToken);
+        if (!ModelState.IsValid) return Page();
+        Threads = await forum.GetAllAsync(cancellationToken, Search, Status);
         return Page();
     }
 

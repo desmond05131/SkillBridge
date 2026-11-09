@@ -14,17 +14,26 @@
 <!--FOR CREATE QUIZ will go to dedicated page -->
 <a class="btn primary" asp-page="/Timothy/Admin/Quizzes/Create">Create quiz</a>
 @if (!string.IsNullOrEmpty(Model.StatusMessage)) { <p role="status">@Model.StatusMessage</p> }
+<form method="get" class="card card-body section-space">
+    <div asp-validation-summary="All" class="field-error" role="alert"></div>
+    <div class="grid two">
+        <div class="field"><label asp-for="Search">Search quiz or course</label><input asp-for="Search" class="control" maxlength="120" /></div>
+        <div class="field"><label asp-for="Status">Publication status</label><select asp-for="Status" class="control"><option value="">All statuses</option><option>Draft</option><option>Published</option></select></div>
+    </div>
+    <div class="actions"><button class="btn primary" type="submit">Filter</button><a asp-page="Index" class="btn secondary">Clear filters</a></div>
+</form>
+<p role="status">@Model.Quizzes.Count quizzes found.</p>
 @if (Model.Quizzes.Count == 0)
 {
     <section class="card empty">
-        <h2>No quizzes yet</h2>
-        <p>Quizzes will appear here when they are added.</p>
+        <h2>No matching quizzes</h2>
+        <p>Clear the filters or create a quiz.</p>
     </section>
 }
 else
 {
     <div class="card table-wrap">
-        <table class="data-table">
+        <table class="data-table quiz-management-table">
             <thead>
                 <tr>
                     <th scope="col">Quiz</th>
@@ -33,7 +42,7 @@ else
                     <th scope="col">Pass Mark</th>
                     <th scope="col">Attempts</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Preview</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>

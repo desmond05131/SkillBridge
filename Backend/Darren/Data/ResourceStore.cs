@@ -32,15 +32,20 @@ public sealed class ResourceStore(MySqlConnectionFactory connections, IWebHostEn
         return File.Exists(bundled) ? bundled : null;
     }
 
-    public async Task<List<ResourceFile>> ListAsync(long? id, CancellationToken cancellationToken)
+    public async Task<List<ResourceFile>> ListAsync(long? id, CancellationToken cancellationToken, string? search = null, string? type = null)
     {
         await using var connection = await connections.OpenAsync(cancellationToken);
         await using var command = connection.CreateCommand();
         command.CommandText = """
             SELECT r.*, l.title AS lesson_title FROM resources r JOIN lessons l ON l.id=r.lesson_id
-            WHERE (@id IS NULL OR r.id=@id) ORDER BY l.title,r.title,r.id;
+            WHERE (@id IS NULL OR r.id=@id)
+              AND (@search='' OR LOCATE(@search,r.title)>0 OR LOCATE(@search,l.title)>0)
+              AND (@type='' OR r.resource_type=@type)
+            ORDER BY l.title,r.title,r.id;
             """;
         command.Parameters.AddWithValue("@id", id);
+        command.Parameters.AddWithValue("@search", search?.Trim() ?? "");
+        command.Parameters.AddWithValue("@type", type ?? "");
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var files = new List<ResourceFile>();
         while (await reader.ReadAsync(cancellationToken))

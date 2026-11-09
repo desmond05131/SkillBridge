@@ -3,6 +3,15 @@
 @{ ViewData["Title"] = "Resources"; }
 <div class="page-head"><div><h1>Resources</h1><p>Manage downloadable guides and lesson media.</p></div><a asp-page="Edit" class="btn primary">Upload resource</a></div>
 @if(Model.StatusMessage is not null) { <p role="status">@Model.StatusMessage</p> }
+<form method="get" class="card card-body section-space">
+    <div asp-validation-summary="All" class="field-error" role="alert"></div>
+    <div class="grid two">
+        <div class="field"><label asp-for="Search">Search resource or lesson</label><input asp-for="Search" class="control" maxlength="120" /></div>
+        <div class="field"><label asp-for="Type">Resource type</label><select asp-for="Type" class="control"><option value="">All types</option><option value="Pdf">PDF</option><option>Video</option><option>Audio</option></select></div>
+    </div>
+    <div class="actions"><button class="btn primary" type="submit">Filter</button><a asp-page="Index" class="btn secondary">Clear filters</a></div>
+</form>
+<p role="status">@Model.Resources.Count resources found.</p>
 <div class="card table-wrap"><table class="data-table"><thead><tr><th>Title</th><th>Lesson</th><th>Type / size</th><th>Actions</th></tr></thead><tbody>
 @foreach(var resource in Model.Resources)
 {
@@ -10,5 +19,5 @@
 <a asp-page="/Darren/Lessons/View" asp-route-id="@resource.LessonId">Preview</a><a asp-page="Edit" asp-route-id="@resource.Id">Edit</a>
 <form method="post" asp-page-handler="Delete" asp-route-id="@resource.Id" data-confirm="Delete this resource?"><button class="btn danger" type="submit">Delete</button></form></td></tr>
 }
-@if(Model.Resources.Count==0) { <tr><td colspan="4">No resources saved.</td></tr> }
+@if(Model.Resources.Count==0) { <tr><td colspan="4">No matching resources. Clear the filters or upload a resource.</td></tr> }
 </tbody></table></div>

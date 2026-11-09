@@ -14,5 +14,5 @@ public interface IForumReader
 
     Task<IReadOnlyList<ForumReply>> GetRepliesAsync(long threadId, CancellationToken cancellationToken);
 
-    Task<IReadOnlyList<DiscussionSummary>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IReadOnlyList<DiscussionSummary>> GetAllAsync(CancellationToken cancellationToken, string? search = null, string? status = null);
 }

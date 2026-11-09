@@ -11,11 +11,20 @@
     </div>
 </div>
 
+<form method="get" class="card card-body section-space">
+    <div asp-validation-summary="All" class="field-error" role="alert"></div>
+    <div class="grid two">
+        <div class="field"><label asp-for="Search">Search title or author</label><input asp-for="Search" class="control" maxlength="120" /></div>
+        <div class="field"><label asp-for="Status">Discussion status</label><select asp-for="Status" class="control"><option value="">All statuses</option><option>Open</option><option>Pinned</option><option>Locked</option></select></div>
+    </div>
+    <div class="actions"><button class="btn primary" type="submit">Filter</button><a asp-page="Index" class="btn secondary">Clear filters</a></div>
+</form>
+<p role="status">@Model.Threads.Count discussions shown (up to 500). Open includes pinned discussions that accept replies.</p>
 @if (Model.Threads.Count == 0)
 {
     <section class="card empty">
-        <h2>No discussions yet</h2>
-        <p>Community discussions will appear here once members start posting.</p>
+        <h2>No matching discussions</h2>
+        <p>Clear the filters or check again after members post.</p>
     </section>
 }
 else
@@ -58,14 +67,14 @@ else
                             <div class="actions">
                                 <form method="post" asp-page-handler="Moderate">
                                     <input type="hidden" name="ModerateThreadId" value="@thread.Id" />
-                                    <input type="hidden" name="SetPinned" value="@(!thread.IsPinned)" />
-                                    <input type="hidden" name="SetLocked" value="@thread.IsLocked" />
+                                    <input type="hidden" name="SetPinned" value="@(thread.IsPinned ? "false" : "true")" />
+                                    <input type="hidden" name="SetLocked" value="@(thread.IsLocked ? "true" : "false")" />
                                     <button type="submit" class="btn ghost small">@(thread.IsPinned ? "Unpin" : "Pin")</button>
                                 </form>
                                 <form method="post" asp-page-handler="Moderate">
                                     <input type="hidden" name="ModerateThreadId" value="@thread.Id" />
-                                    <input type="hidden" name="SetPinned" value="@thread.IsPinned" />
-                                    <input type="hidden" name="SetLocked" value="@(!thread.IsLocked)" />
+                                    <input type="hidden" name="SetPinned" value="@(thread.IsPinned ? "true" : "false")" />
+                                    <input type="hidden" name="SetLocked" value="@(thread.IsLocked ? "false" : "true")" />
                                     <button type="submit" class="btn ghost small">@(thread.IsLocked ? "Unlock" : "Lock")</button>
                                 </form>
                                 <form method="post" asp-page-handler="DeleteThread" data-confirm="Delete this discussion and all of its replies?">

@@ -31,7 +31,7 @@ public sealed class MySqlForumReader(MySqlConnectionFactory connectionFactory) :
         return discussions;
     }
 
-    public async Task<IReadOnlyList<DiscussionSummary>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<DiscussionSummary>> GetAllAsync(CancellationToken cancellationToken, string? search = null, string? status = null)
     {
         await using var connection = await connectionFactory.OpenAsync(cancellationToken);
         await using var command = connection.CreateCommand();
@@ -41,9 +41,14 @@ public sealed class MySqlForumReader(MySqlConnectionFactory connectionFactory) :
                    t.last_activity_at_utc, t.is_pinned, t.is_locked
             FROM forum_threads t
             INNER JOIN users u ON u.id = t.author_id
+            WHERE (@search = '' OR LOCATE(@search,t.title)>0 OR LOCATE(@search,u.display_name)>0)
+              AND (@status = '' OR (@status='Pinned' AND t.is_pinned=TRUE)
+                  OR (@status='Locked' AND t.is_locked=TRUE) OR (@status='Open' AND t.is_locked=FALSE))
             ORDER BY t.last_activity_at_utc DESC, t.id DESC
             LIMIT 500;
             """;
+        command.Parameters.AddWithValue("@search", search?.Trim() ?? "");
+        command.Parameters.AddWithValue("@status", status ?? "");
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var discussions = new List<DiscussionSummary>();
         while (await reader.ReadAsync(cancellationToken))

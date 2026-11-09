@@ -35,7 +35,7 @@ public sealed class MySqlQuizReader(MySqlConnectionFactory connectionFactory) : 
             reader.GetDecimal("pass_percentage"), reader.GetBoolean("is_published"), reader.GetBoolean("is_course_published"));
     }
 
-    public async Task<IReadOnlyList<QuizSummary>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<QuizSummary>> GetAllAsync(CancellationToken cancellationToken, string? search = null, string? status = null)
     { //this reads entire code for databasing
         await using var connection = await connectionFactory.OpenAsync(cancellationToken);
         await using var command = connection.CreateCommand();
@@ -45,8 +45,12 @@ public sealed class MySqlQuizReader(MySqlConnectionFactory connectionFactory) : 
             (SELECT COUNT(*) FROM attempts qa WHERE qa.quiz_id = q.id) AS attempt_count
             FROM quizzes q
             INNER JOIN courses c ON c.id = q.course_id
+            WHERE (@search = '' OR LOCATE(@search,q.title)>0 OR LOCATE(@search,c.title)>0)
+              AND (@status = '' OR (@status='Draft' AND q.is_published=FALSE) OR (@status='Published' AND q.is_published=TRUE))
             ORDER BY c.title, q.title, q.id;
             """; // to add On
+        command.Parameters.AddWithValue("@search", search?.Trim() ?? "");
+        command.Parameters.AddWithValue("@status", status ?? "");
         await using var reader = await command.ExecuteReaderAsync(cancellationToken);
         var quizzes = new List<QuizSummary>();
         while (await reader.ReadAsync(cancellationToken))
