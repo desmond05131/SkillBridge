@@ -45,6 +45,9 @@ public sealed class AccountService(IAccountRepository repository, IPasswordServi
     public Task<AccountUser> UpdateProfileAsync(AccountUser user, string displayName, string email, CancellationToken cancellationToken) =>
         repository.UpdateProfileAsync(user, displayName.Trim(), email.Trim(), NormalizeEmail(email), NewStamp(), cancellationToken);
 
+    public Task RevokeSessionsAsync(AccountUser user, CancellationToken cancellationToken) =>
+        repository.RevokeSessionsAsync(user, NewStamp(), cancellationToken);
+
     public async Task<AccountUser> ChangePasswordAsync(AccountUser user, string currentPassword, string newPassword, CancellationToken cancellationToken)
     {
         var lookup = await repository.FindByIdAsync(user.Id, cancellationToken);

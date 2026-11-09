@@ -75,6 +75,18 @@ public sealed class MySqlAccountRepository(MySqlConnectionFactory connections) :
         return user with { SecurityStamp = securityStamp };
     }
 
+    public async Task RevokeSessionsAsync(AccountUser user, string securityStamp, CancellationToken cancellationToken)
+    {
+        await using var connection = await connections.OpenAsync(cancellationToken);
+        await using var command = new MySqlCommand("""
+            UPDATE users SET security_stamp = @stamp
+            WHERE id = @id AND is_active = TRUE AND security_stamp = @oldStamp
+            """, connection);
+        AddIdentityParameters(command, user, securityStamp);
+        if (await command.ExecuteNonQueryAsync(cancellationToken) != 1)
+            throw new AccountChangedException();
+    }
+
     private static void AddIdentityParameters(MySqlCommand command, AccountUser user, string securityStamp)
     {
         // Only update the version we read; another request may have changed this account in the meantime.

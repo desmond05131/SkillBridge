@@ -67,6 +67,26 @@ public sealed class ProfileModel(AccountService accounts) : PageModel
         }
     }
 
+    public async Task<IActionResult> OnPostSignOutEverywhereAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var user = await accounts.GetActiveAsync(AccountSession.UserId(User), cancellationToken);
+            await accounts.RevokeSessionsAsync(user, cancellationToken);
+            return await SignOutAsync();
+        }
+        catch (AccountChangedException)
+        {
+            return await SignOutAsync();
+        }
+        catch (DatabaseUnavailableException)
+        {
+            ModelState.Clear();
+            Input = new InputModel { DisplayName = User.Identity?.Name ?? "", Email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value ?? "" };
+            return DatabaseUnavailablePage();
+        }
+    }
+
     private async Task<IActionResult> SignOutAsync()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

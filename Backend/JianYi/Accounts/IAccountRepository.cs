@@ -7,6 +7,7 @@ public interface IAccountRepository
     Task<AccountUser> CreateAsync(string displayName, string email, string normalizedEmail, string passwordHash, UserRole role, string securityStamp, CancellationToken cancellationToken);
     Task<AccountUser> UpdateProfileAsync(AccountUser user, string displayName, string email, string normalizedEmail, string securityStamp, CancellationToken cancellationToken);
     Task<AccountUser> UpdatePasswordAsync(AccountUser user, string passwordHash, string securityStamp, CancellationToken cancellationToken);
+    Task RevokeSessionsAsync(AccountUser user, string securityStamp, CancellationToken cancellationToken);
 }
 
 public enum PasswordVerification

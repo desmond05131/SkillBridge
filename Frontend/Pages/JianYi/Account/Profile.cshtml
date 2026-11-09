@@ -36,3 +36,10 @@
     </section>
     <partial name="_AccountHelp" />
 </div>
+<section class="card card-body section-space">
+    <h2>Account security</h2>
+    <p>Used a shared computer? Sign out all devices, including this browser. Other sessions will require sign-in on their next request.</p>
+    <form method="post" asp-page-handler="SignOutEverywhere" data-confirm="Sign out all devices, including this browser?">
+        <button type="submit" class="btn secondary">Sign out all devices</button>
+    </form>
+</section>
