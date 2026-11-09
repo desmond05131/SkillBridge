@@ -108,6 +108,9 @@ public class CreateModel(MySqlConnectionFactory database, IWebHostEnvironment en
             ModelState.Remove($"Input.{field}");
         TryValidateModel(Input, nameof(Input));
 
+        if (!Input.Title.Any(char.IsLetter))
+            ModelState.AddModelError("Input.Title", "Include words in the course title.");
+
         if (!Categories.Contains(Input.Category))
             ModelState.AddModelError("Input.Category", "Please choose a valid category.");
 

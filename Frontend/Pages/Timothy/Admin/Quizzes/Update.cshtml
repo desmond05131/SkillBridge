@@ -29,20 +29,23 @@
 
         <div class="field">
             <label asp-for="Title">Quiz Title *</label>
-            <input asp-for="Title" class="control" required />
+            <input asp-for="Title" class="control" minlength="3" maxlength="120" required />
             <span asp-validation-for="Title" class="field-error"></span>
+            <small class="muted">3–120 characters. Include words; technical symbols are allowed.</small>
         </div>
 
         <div class="field">
             <label asp-for="Instructions">Instructions *</label>
-            <textarea asp-for="Instructions" class="control" rows="4" required></textarea>
+            <textarea asp-for="Instructions" class="control" rows="4" maxlength="2000" required></textarea>
             <span asp-validation-for="Instructions" class="field-error"></span>
+            <small class="muted">Up to 2,000 characters. Describe how to complete the quiz.</small>
         </div>
 
         <div class="grid two">
             <div class="field">
                 <label asp-for="PassPercentage">Pass Percentage *</label>
                 <input asp-for="PassPercentage" type="number" min="1" max="100" step="0.01" class="control" required />
+                <span asp-validation-for="PassPercentage" class="field-error"></span>
             </div>
 
             <div class="field">
@@ -51,6 +54,7 @@
                     <option value="false">Draft</option>
                     <option value="true">Published</option>
                 </select>
+                <span asp-validation-for="IsPublished" class="field-error"></span>
             </div>
         </div>
 

@@ -44,6 +44,8 @@ public string? ErrorMessage { get; set; }
         await LoadCoursesAsync(cancellationToken);
         if (!Courses.Any(course => course.Id == CourseId)) ModelState.AddModelError(nameof(CourseId), "Choose a course without a quiz.");
         if (Title.Length < 3) ModelState.AddModelError(nameof(Title), "Use at least 3 characters.");
+        if (!Title.Any(char.IsLetter)) ModelState.AddModelError(nameof(Title), "Include words in the quiz title.");
+        if (!instructions.Any(char.IsLetter)) ModelState.AddModelError(nameof(instructions), "Describe how to complete the quiz using words.");
         if (IsPublished) ModelState.AddModelError(nameof(IsPublished), "Create a draft first, then add valid questions before publishing.");
         if (!ModelState.IsValid)
         {

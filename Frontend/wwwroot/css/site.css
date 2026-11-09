@@ -861,6 +861,20 @@ textarea.control {
     color:var(--ink);
 }
 
+.data-table td {
+    overflow-wrap:anywhere;
+}
+
+.quiz-management-table .badge {
+    white-space:nowrap;
+    overflow-wrap:normal;
+    flex-shrink:0;
+}
+
+.quiz-management-table .actions {
+    min-width:170px;
+}
+
 .pagination {
     display:flex;
     justify-content:space-between;

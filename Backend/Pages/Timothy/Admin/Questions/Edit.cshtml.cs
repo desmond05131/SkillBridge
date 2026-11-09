@@ -38,6 +38,10 @@ public sealed class EditModel(QuestionStore store, QuizAttemptStore attempts) : 
         var quiz = await store.QuizAsync(Input.QuizId, cancellationToken);
         if (quiz is null) return NotFound();
         Quiz = quiz;
+        Input.Text = (Input.Text ?? "").Trim();
+        Input.Explanation = (Input.Explanation ?? "").Trim();
+        if (!Input.Text.Any(char.IsLetter)) ModelState.AddModelError("Input.Text", "Write the question using words; technical symbols are allowed.");
+        if (!Input.Explanation.Any(char.IsLetter)) ModelState.AddModelError("Input.Explanation", "Explain the answer using words.");
         if (string.IsNullOrWhiteSpace(Input.Text) || Input.Text.Trim().Length < 5) ModelState.AddModelError("Input.Text", "Use at least 5 characters.");
         if (string.IsNullOrWhiteSpace(Input.Explanation)) ModelState.AddModelError("Input.Explanation", "Add a helpful explanation.");
         if (Input.Options is null || Input.Options.Length != 4 || Input.Options.Any(option => string.IsNullOrWhiteSpace(option) || option.Trim().Length > 500))

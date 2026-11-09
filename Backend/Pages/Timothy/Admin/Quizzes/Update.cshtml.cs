@@ -51,6 +51,16 @@ public sealed class UpdateModel(MySqlConnectionFactory connections, QuizAttemptS
         Title = (Title ?? "").Trim();
         Instructions = (Instructions ?? "").Trim();
         if (Title.Length < 3) ModelState.AddModelError(nameof(Title), "Use at least 3 characters.");
+        if (!Title.Any(char.IsLetter)) ModelState.AddModelError(nameof(Title), "Include words in the quiz title.");
+        if (!Instructions.Any(char.IsLetter)) ModelState.AddModelError(nameof(Instructions), "Describe how to complete the quiz using words.");
+        await using (var connection = await connections.OpenAsync(cancellationToken))
+        {
+            await using var command = new MySqlCommand("SELECT course_id FROM quizzes WHERE id=@id;", connection);
+            command.Parameters.AddWithValue("@id", QuizId);
+            var courseId = await command.ExecuteScalarAsync(cancellationToken);
+            if (courseId is null) return NotFound();
+            CourseId = Convert.ToInt64(courseId);
+        }
         if (IsPublished && !QuizAttemptStore.IsReady(await attempts.QuestionsAsync(QuizId, cancellationToken)))
             ModelState.AddModelError(nameof(IsPublished), "Add questions with four options and one correct answer each before publishing.");
         if (!ModelState.IsValid) return Page();
