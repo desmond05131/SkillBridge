@@ -1927,6 +1927,13 @@ textarea:focus-visible {
     margin-bottom: 0;
 }
 
+@media (max-width: 600px) {
+    .toolbar > .field {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+}
+
 .stat > .label,
 .stat > .value {
     display: block;
