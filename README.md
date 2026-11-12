@@ -1,44 +1,52 @@
-# SkillBridge
+# SkillBridge — WAPP Group 3
 
-WAPP Group 3 · ASP.NET Core Razor Pages · MySQL
+## Requirements
+.NET 10 SDK 10.0.301 or a later .NET 10 feature band; MySQL 8.0; MySQL Workbench.
 
-Read [TEAM_START_HERE.txt](TEAM_START_HERE.txt) for your part, folders and steps.
-Read [JIAN_YI_EXAMPLE.txt](JIAN_YI_EXAMPLE.txt) to follow a complete form through C# and SQL, then start your own feature.
-Timothy: read [TIMOTHY_START_HERE.txt](TIMOTHY_START_HERE.txt) to run the quiz example and continue your part.
-Read [TEAM_INTEGRATION_REVIEW.txt](TEAM_INTEGRATION_REVIEW.txt) for the integrated work, corrections and verification.
-All five modules are integrated, including resource uploads and question management.
-
-## Run
-
-1. Install the .NET 10 SDK (10.0.301 or later in .NET 10) and start MySQL.
-2. Open `database/skillbridge.sql` in MySQL Workbench and execute it.
-   If you already imported the older database, run `database/migrations/001_add_course_thumbnail.sql` once instead. It preserves existing data.
-3. Run `database/course_content.sql` for three ready-to-use courses, lessons, resources and quizzes.
-   It can be run again without adding duplicates. Keep `database/media/` with the project.
-4. Open a terminal in this project folder. Replace the database details below:
+## Set up and run
+1. Start MySQL. In Workbench, execute `database/skillbridge.sql`, then `database/course_content.sql`. These target the `skillbridge` database. Use a fresh local database/server for grading; the scripts do not erase an existing database. Keep `database/media` in the project.
+2. Open PowerShell in this folder. Restore and build:
 
 ```powershell
-dotnet user-secrets set "ConnectionStrings:SkillBridge" "Server=localhost;Port=3306;Database=skillbridge;User ID=YOUR_USER;Password=YOUR_PASSWORD"
+dotnet restore --locked-mode
+dotnet build --no-restore
+```
+
+3. Set your own connection details in that same terminal without saving a password in the project:
+
+```powershell
+$dbSecret = Read-Host 'Enter Server=localhost;Port=3306;Database=skillbridge;User ID=YOUR_USER;Password=YOUR_PASSWORD' -AsSecureString
+$env:ConnectionStrings__SkillBridge = [System.Net.NetworkCredential]::new('', $dbSecret).Password
+Remove-Variable dbSecret
+```
+
+4. Create the administrator:
+
+```powershell
+dotnet run -- --create-admin
+```
+
+Enter a name, email and password. New passwords require 12–128 characters, at least one uppercase letter A–Z and one symbol such as ! or #. No default password is included.
+
+5. Start the site:
+
+```powershell
 dotnet run
 ```
 
-Open **http://localhost:5272**. Register a Member through the website.
-To create your local Admin, stop the website, run `dotnet run -- --create-admin`,
-and enter a different email. Then run `dotnet run` again.
+Open http://localhost:5272. Sign in using the Admin you created. Register a separate Member through Create account. Stop the running app with Ctrl+C before rebuilding or starting it again.
 
-Set the connection once per machine. After that, just run `dotnet run`.
-Passwords stay on your machine. Importing `course_content.sql` publishes the starter courses. Without it, they remain drafts.
-Uploaded resources are saved privately in `App_Data/resources/`; back up that folder with your database.
-Course thumbnails are saved in `Frontend/wwwroot/uploads/courses/`. For submission, include any uploaded resources and thumbnails your exported database references. Never include local secrets.
+## Check the features
+- Admin: users, courses, lessons/resources, quizzes/questions and forum moderation.
+- Member: browse/enrol, study text/video/audio/PDF, track progress, attempt quizzes, review answers and create discussions/replies.
+- Three seeded courses include six lessons, three quizzes and nine questions. The forum starts empty; create a discussion as a Member.
+- Quiz deletion removes questions/options only when no learner attempts exist. Existing learner attempts are protected.
+- Sign out all devices invalidates old sessions; it does not change the password.
 
-## Your Figma pages
+## Folders
+`Frontend`: Razor pages, CSS, JavaScript and local fonts.
+`Backend`: C# page handlers, account rules and parameterised SQL, grouped by member.
+`database`: schema, starter content and required teaching media.
+`Properties`: local launch configuration.
 
-30 layouts in total. Create and Edit share one form.
-
-| Owner | Layouts | Design |
-|---|---:|---|
-| Jian Yi | 9 | [Accounts and Admin](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-2) |
-| Chang Zhe | 5 | [Courses](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-37) |
-| Darren | 5 | [Lessons and resources](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-23) |
-| Timothy | 7 | [Quizzes](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-72) |
-| Hamzah | 4 | [Forum](https://www.figma.com/design/kpUFQaF3ozCfoMnb4ERyTi/WAPP---SkillBridge?node-id=30-56) |
+The package uses reproducible starter data, not a copy of personal accounts or test records. Uploaded files are created under App_Data/resources and Frontend/wwwroot/uploads/courses while using the site. No personal uploads are needed by the supplied SQL. The build creates bin and obj automatically. Font licence notices and teaching-media provenance are retained.
