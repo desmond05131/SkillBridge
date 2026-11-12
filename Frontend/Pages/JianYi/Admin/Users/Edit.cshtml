@@ -65,7 +65,7 @@
                     <div class="field">
                         <label asp-for="Input.Password">Password<span class="required" aria-hidden="true">*</span></label>
                         <div class="password-wrap">
-                            <input asp-for="Input.Password" class="control" type="password" autocomplete="new-password" value="" required minlength="12" maxlength="128" aria-describedby="Input_Password_error Input_Password_hint" />
+                            <input asp-for="Input.Password" class="control" type="password" pattern="@SkillBridge.Web.Features.Accounts.PasswordPolicy.Pattern" title="@SkillBridge.Web.Features.Accounts.PasswordPolicy.Message" autocomplete="new-password" value="" required minlength="12" maxlength="128" aria-describedby="Input_Password_error Input_Password_hint" />
                             <button class="password-toggle" type="button" data-show-password="Input_Password" aria-label="Show password" aria-pressed="false">Show</button>
                         </div>
                         <div class="hint" id="Input_Password_hint">Use 12–128 characters. The user can change their password after signing in.</div>

@@ -68,6 +68,7 @@ public sealed class ChangePasswordModel(AccountService accounts) : PageModel
         public string CurrentPassword { get; set; } = string.Empty;
 
         [Required, StringLength(AccountService.MaximumPasswordLength, MinimumLength = AccountService.MinimumPasswordLength), DataType(DataType.Password), Display(Name = "New password")]
+        [RegularExpression(PasswordPolicy.Pattern, ErrorMessage = PasswordPolicy.Message)]
         public string NewPassword { get; set; } = string.Empty;
 
         [Required, Compare(nameof(NewPassword), ErrorMessage = "The passwords do not match."), DataType(DataType.Password), Display(Name = "Confirm new password")]

@@ -11,7 +11,7 @@ public static class AdminBootstrap
         var displayName = ReadValue("SKILLBRIDGE_ADMIN_NAME", "Administrator display name: ").Trim();
         var email = ReadValue("SKILLBRIDGE_ADMIN_EMAIL", "Administrator email: ").Trim();
         var password = ReadPassword();
-        if (displayName.Length is < 2 or > 80 || email.Length > 254 || !new EmailAddressAttribute().IsValid(email) || password.Length is < AccountService.MinimumPasswordLength or > AccountService.MaximumPasswordLength)
+        if (displayName.Length is < 2 or > 80 || email.Length > 254 || !new EmailAddressAttribute().IsValid(email) || !PasswordPolicy.IsValid(password))
         {
             Console.Error.WriteLine("No account was created. Supply a name of 2–80 characters, a valid email of up to 254 characters and a password of 12–128 characters.");
             return 1;

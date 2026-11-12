@@ -50,6 +50,7 @@ public sealed class AccountService(IAccountRepository repository, IPasswordServi
 
     public async Task<AccountUser> ChangePasswordAsync(AccountUser user, string currentPassword, string newPassword, CancellationToken cancellationToken)
     {
+        PasswordPolicy.Validate(newPassword);
         var lookup = await repository.FindByIdAsync(user.Id, cancellationToken);
         if (lookup is not AccountLookup.Found found || !found.Credentials.User.IsActive || found.Credentials.User.SecurityStamp != user.SecurityStamp)
             throw new AccountChangedException();
@@ -60,8 +61,11 @@ public sealed class AccountService(IAccountRepository repository, IPasswordServi
         return await repository.UpdatePasswordAsync(user, passwords.Hash(newPassword), NewStamp(), cancellationToken);
     }
 
-    private Task<AccountUser> CreateAsync(string displayName, string email, string password, UserRole role, CancellationToken cancellationToken) =>
-        repository.CreateAsync(displayName.Trim(), email.Trim(), NormalizeEmail(email), passwords.Hash(password), role, NewStamp(), cancellationToken);
+    private Task<AccountUser> CreateAsync(string displayName, string email, string password, UserRole role, CancellationToken cancellationToken)
+    {
+        PasswordPolicy.Validate(password);
+        return repository.CreateAsync(displayName.Trim(), email.Trim(), NormalizeEmail(email), passwords.Hash(password), role, NewStamp(), cancellationToken);
+    }
 
     private static string NewStamp() => Guid.NewGuid().ToString("N");
 }

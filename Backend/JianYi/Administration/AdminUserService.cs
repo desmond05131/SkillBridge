@@ -24,8 +24,7 @@ public sealed class AdminUserService(IAdminUserStore store, IPasswordService pas
     public Task<AdminUser> CreateAsync(long actingAdminId, AdminUserInput input, string password, CancellationToken cancellationToken)
     {
         var validatedInput = Validate(input);
-        if (string.IsNullOrWhiteSpace(password) || password.Length < AccountService.MinimumPasswordLength || password.Length > AccountService.MaximumPasswordLength)
-            throw new ValidationException($"Password must contain {AccountService.MinimumPasswordLength} to {AccountService.MaximumPasswordLength} characters.");
+        PasswordPolicy.Validate(password);
 
         // Store a one-way hash, never the password typed into the form.
         return store.CreateAsync(actingAdminId, validatedInput, AccountService.NormalizeEmail(validatedInput.Email),

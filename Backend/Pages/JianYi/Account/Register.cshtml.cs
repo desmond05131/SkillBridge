@@ -80,6 +80,7 @@ public sealed class RegisterModel(AccountService accounts) : PageModel
         public string Email { get; set => field = value?.Trim() ?? string.Empty; } = string.Empty;
 
         [Required, StringLength(AccountService.MaximumPasswordLength, MinimumLength = AccountService.MinimumPasswordLength), DataType(DataType.Password)]
+        [RegularExpression(PasswordPolicy.Pattern, ErrorMessage = PasswordPolicy.Message)]
         public string Password { get; set; } = string.Empty;
 
         [Required, Compare(nameof(Password), ErrorMessage = "The passwords do not match."), DataType(DataType.Password), Display(Name = "Confirm password")]

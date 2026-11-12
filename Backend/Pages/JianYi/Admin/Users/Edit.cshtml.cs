@@ -158,6 +158,7 @@ public sealed class EditModel(AdminUserService users) : PageModel
         public string? SecurityStamp { get; set; }
 
         [StringLength(AccountService.MaximumPasswordLength, MinimumLength = AccountService.MinimumPasswordLength), DataType(DataType.Password)]
+        [RegularExpression(PasswordPolicy.Pattern, ErrorMessage = PasswordPolicy.Message)]
         public string? Password { get; set; }
 
         [StringLength(AccountService.MaximumPasswordLength), Compare(nameof(Password), ErrorMessage = "The passwords do not match."), DataType(DataType.Password), Display(Name = "Confirm password")]
