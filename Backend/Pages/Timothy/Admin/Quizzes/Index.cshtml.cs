@@ -25,18 +25,39 @@ public sealed class IndexModel(IQuizReader quizzes, MySqlConnectionFactory conne
     [TempData] public string? StatusMessage { get; set; }
     public async Task<IActionResult> OnPostDeleteAsync(long quizId, CancellationToken cancellationToken)
     {
+        if (quizId <= 0) return NotFound();
         await using var connection = await connections.OpenAsync(cancellationToken);
+        await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
         await using var command = connection.CreateCommand();
-        command.CommandText = "DELETE FROM quizzes WHERE id=@id";
+        command.Transaction = transaction;
+        command.CommandText = "SELECT id FROM quizzes WHERE id=@id FOR UPDATE;";
         command.Parameters.AddWithValue("@id", quizId);
+        if (await command.ExecuteScalarAsync(cancellationToken) is null)
+        {
+            StatusMessage = "Quiz not found.";
+            return RedirectToPage();
+        }
+        command.CommandText = "SELECT COUNT(*) FROM attempts WHERE quiz_id=@id;";
+        if (Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken)) > 0)
+        {
+            StatusMessage = "This quiz cannot be deleted because learners have started attempts. Their results must be preserved.";
+            return RedirectToPage();
+        }
         try
         {
-            var deleted = await command.ExecuteNonQueryAsync(cancellationToken);
-            StatusMessage = deleted > 0 ? "Quiz deleted." : "Quiz not found.";
+            command.CommandText = """
+                DELETE o FROM options o JOIN questions q ON q.id=o.question_id WHERE q.quiz_id=@id;
+                DELETE FROM questions WHERE quiz_id=@id;
+                DELETE FROM quizzes WHERE id=@id;
+                """;
+            await command.ExecuteNonQueryAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            StatusMessage = "Quiz and its questions deleted.";
         }
         catch (MySqlException exception) when (exception.Number == 1451)
         {
-            StatusMessage = "This quiz has questions or attempts and cannot be deleted.";
+            await transaction.RollbackAsync(cancellationToken);
+            StatusMessage = "This quiz cannot be deleted because learner records are linked to it. Nothing was deleted.";
         }
         return RedirectToPage();
     }

@@ -64,9 +64,16 @@ else
                             <a asp-page="/Timothy/Admin/Questions/Index" asp-route-quizId="@quiz.Id">Questions</a>
                             <a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@quiz.Id" aria-label="Preview @quiz.Title">Preview</a>
                             <a class="edit-btn" asp-page="/Timothy/Admin/Quizzes/Update" asp-route-id="@quiz.Id">Edit</a>
-                            <form method="post" asp-page-handler="Delete" asp-route-quizId="@quiz.Id" data-confirm="Delete this unused quiz?">
-                                <button type="submit" class="btn danger">Delete</button>
-                            </form>
+                            @if (quiz.attempts > 0)
+                            {
+                                <span class="muted">Deletion blocked: learner attempts exist.</span>
+                            }
+                            else
+                            {
+                                <form method="post" asp-page-handler="Delete" asp-route-quizId="@quiz.Id" data-confirm="Delete this quiz and all its questions and answer options? This cannot be undone.">
+                                    <button type="submit" class="btn danger">Delete</button>
+                                </form>
+                            }
                         </td>
                     </tr>
                 }
